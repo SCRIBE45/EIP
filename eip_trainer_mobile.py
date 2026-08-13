@@ -302,9 +302,10 @@ for key, value in defaults.items():
 
 st.markdown("""
 <style>
-    [data-testid="stHeader"] {
-        background: transparent;
-    }
+    /* Ocultar elementos predeterminados de Streamlit que cortan la pantalla por arriba */
+    #MainMenu {visibility: hidden;}
+    footer {visibility: hidden;}
+    header {visibility: hidden;}
 
     .block-container {
         max-width: 760px;
