@@ -293,12 +293,6 @@ for key, value in defaults.items():
 # ============================================================
 st.markdown("""
 <style>
-
-    /* Fuente con soporte para € y caracteres Unicode */
-    button, input, textarea, p, span, div {
-        font-family: "Segoe UI", Arial, sans-serif !important;
-    }
-
     .block-container {
         max-width: 760px;
         padding-top: 1.5rem;
