@@ -303,7 +303,7 @@ for key, value in defaults.items():
 st.markdown("""
 <style>
     /* Ocultar elementos predeterminados de Streamlit que cortan la pantalla por arriba */
-    #MainMenu {visibility: hidden;}
+    #MainMenu {visibility: transparent;}
     footer {visibility: hidden;}
     header {visibility: hidden;}
 
