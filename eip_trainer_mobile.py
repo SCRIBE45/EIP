@@ -299,10 +299,6 @@ st.markdown("""
         padding-bottom: 3rem;
     }
 
-    [data-testid="stHeader"] {
-    background: transparent;
-}
-
     .titulo {
         font-size: 2.2rem;
         font-weight: 700;
