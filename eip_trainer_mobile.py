@@ -1,3 +1,4 @@
+
 import streamlit as st
 import sqlite3
 import random
@@ -291,6 +292,7 @@ for key, value in defaults.items():
 # ============================================================
 # ESTILO
 # ============================================================
+
 st.markdown("""
 <style>
     .block-container {
@@ -298,6 +300,10 @@ st.markdown("""
         padding-top: 1.5rem;
         padding-bottom: 3rem;
     }
+
+    [data-testid="stHeader"] {
+    background: transparent;
+}
 
     .titulo {
         font-size: 2.2rem;
@@ -699,3 +705,4 @@ elif st.session_state.pantalla == "results":
     results()
 elif st.session_state.pantalla == "stats":
     stats()
+
