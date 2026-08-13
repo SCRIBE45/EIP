@@ -4,6 +4,8 @@ import sqlite3
 import random
 import datetime
 from pathlib import Path
+import shutil
+import os
 
 # ============================================================
 # CONFIGURACIÓN
@@ -27,8 +29,6 @@ TEMAS_OFICIALES = [
     "Módulo 8. Asesoramiento y planificación financiera",
 ]
 
-# Streamlit Cloud ejecuta la app desde el directorio del proyecto.
-# Pon examen.db en la misma carpeta que este archivo.
 DB_PATH = Path(__file__).parent / "examen.db"
 
 
@@ -38,7 +38,14 @@ DB_PATH = Path(__file__).parent / "examen.db"
 
 @st.cache_resource
 def get_connection():
-    conn = sqlite3.connect(str(DB_PATH), check_same_thread=False)
+    # Copia la base de datos a un directorio temporal de escritura (/tmp) 
+    # para evitar bloqueos de solo lectura en Streamlit Cloud
+    temp_db_path = "/tmp/examen_temp.db"
+    if not os.path.exists(temp_db_path) and DB_PATH.exists():
+        shutil.copyfile(str(DB_PATH), temp_db_path)
+    
+    db_to_use = temp_db_path if os.path.exists(temp_db_path) else str(DB_PATH)
+    conn = sqlite3.connect(db_to_use, check_same_thread=False)
     return conn
 
 
@@ -290,20 +297,22 @@ for key, value in defaults.items():
 
 
 # ============================================================
-# ESTILO
+# ESTILO (Solución para el recorte superior)
 # ============================================================
 
 st.markdown("""
 <style>
+    /* Ocultar elementos predeterminados de Streamlit que cortan la pantalla por arriba */
+    #MainMenu {visibility: hidden;}
+    footer {visibility: hidden;}
+    header {visibility: hidden;}
+
     .block-container {
         max-width: 760px;
-        padding-top: 1.5rem;
+        padding-top: 0.5rem !important; /* Reduce el espacio superior */
         padding-bottom: 3rem;
+        margin-top: -2rem !important;  /* Eleva la vista para que no se corte */
     }
-
-    [data-testid="stHeader"] {
-    background: transparent;
-}
 
     .titulo {
         font-size: 2.2rem;
