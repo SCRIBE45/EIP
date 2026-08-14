@@ -1,4 +1,3 @@
-
 import streamlit as st
 import sqlite3
 import random
@@ -38,8 +37,6 @@ DB_PATH = Path(__file__).parent / "examen.db"
 
 @st.cache_resource
 def get_connection():
-    # Copia la base de datos a un directorio temporal de escritura (/tmp) 
-    # para evitar bloqueos de solo lectura en Streamlit Cloud
     temp_db_path = "/tmp/examen_temp.db"
     if not os.path.exists(temp_db_path) and DB_PATH.exists():
         shutil.copyfile(str(DB_PATH), temp_db_path)
@@ -289,6 +286,8 @@ defaults = {
     "explicacion": "",
     "errores_simulacro": {},
     "inicio_simulacro": None,
+    "opciones_actuales": None,  # Añadido para mezclar respuestas
+    "correcta_actual": None,    # Añadido para identificar la nueva letra correcta
 }
 
 for key, value in defaults.items():
@@ -297,7 +296,7 @@ for key, value in defaults.items():
 
 
 # ============================================================
-# ESTILO (Solución para el recorte superior)
+# ESTILO 
 # ============================================================
 
 st.markdown("""
@@ -309,9 +308,23 @@ st.markdown("""
 
     .block-container {
         max-width: 760px;
-        padding-top: 0.5rem !important; /* Reduce el espacio superior */
+        padding-top: 0.5rem !important;
         padding-bottom: 3rem;
-        margin-top: -2rem !important;  /* Eleva la vista para que no se corte */
+        margin-top: -2rem !important;
+    }
+
+    /* FORZAR MULTILÍNEA EN BOTONES PARA EVITAR QUE SE CORTEN LOS TEXTOS */
+    div[data-testid="stButton"] button {
+        white-space: normal !important;
+        height: auto !important;
+        min-height: 3rem;
+        padding: 0.75rem 1rem !important;
+        text-align: left !important;
+    }
+    
+    div[data-testid="stButton"] button p {
+        text-align: left !important;
+        font-size: 1rem;
     }
 
     .titulo {
@@ -441,6 +454,8 @@ def iniciar_sesion(modo):
     st.session_state.seleccion = None
     st.session_state.resultado = None
     st.session_state.explicacion = ""
+    st.session_state.opciones_actuales = None
+    st.session_state.correcta_actual = None
     st.session_state.errores_simulacro = {
         t: 0 for t in TEMAS_OFICIALES[1:]
     }
@@ -467,6 +482,30 @@ def session():
 
     p = preguntas[indice]
     total = len(preguntas)
+    
+    # === Lógica para mezclar opciones solo una vez por pregunta ===
+    if st.session_state.opciones_actuales is None:
+        textos_originales = {"A": p[2], "B": p[3], "C": p[4], "D": p[5]}
+        texto_correcto = textos_originales[p[6]]
+        
+        lista_textos = list(textos_originales.values())
+        random.shuffle(lista_textos)
+        
+        st.session_state.opciones_actuales = {
+            "A": lista_textos[0],
+            "B": lista_textos[1],
+            "C": lista_textos[2],
+            "D": lista_textos[3],
+        }
+        
+        # Encontrar cuál es la nueva letra correcta
+        for letra, texto in st.session_state.opciones_actuales.items():
+            if texto == texto_correcto:
+                st.session_state.correcta_actual = letra
+                break
+
+    opciones = st.session_state.opciones_actuales
+    correcta = st.session_state.correcta_actual
 
     modos = {
         "simulacro": "📝 Simulacro",
@@ -486,27 +525,12 @@ def session():
         st.write(f"**{modos[st.session_state.modo]}**")
 
     st.progress((indice + 1) / total)
-
     st.caption(f"Pregunta {indice + 1} / {total}")
 
     tema_corto = p[8].split(". ", 1)[1] if ". " in p[8] else p[8]
 
-    st.markdown(
-        f'<div class="tema">{tema_corto}</div>',
-        unsafe_allow_html=True,
-    )
-
-    st.markdown(
-        f'<div class="pregunta">{p[1]}</div>',
-        unsafe_allow_html=True,
-    )
-
-    opciones = {
-        "A": p[2],
-        "B": p[3],
-        "C": p[4],
-        "D": p[5],
-    }
+    st.markdown(f'<div class="tema">{tema_corto}</div>', unsafe_allow_html=True)
+    st.markdown(f'<div class="pregunta">{p[1]}</div>', unsafe_allow_html=True)
 
     # Antes de responder
     if not st.session_state.respondida:
@@ -520,7 +544,6 @@ def session():
                 st.rerun()
 
     else:
-        correcta = p[6]
         seleccion = st.session_state.seleccion
 
         for letra, texto in opciones.items():
@@ -565,7 +588,7 @@ def session():
 def responder(seleccion):
     p = st.session_state.preguntas[st.session_state.indice]
 
-    correcta = p[6]
+    correcta = st.session_state.correcta_actual
     es_correcta = seleccion == correcta
 
     if es_correcta:
@@ -615,6 +638,8 @@ def siguiente_pregunta():
     st.session_state.seleccion = None
     st.session_state.resultado = None
     st.session_state.explicacion = ""
+    st.session_state.opciones_actuales = None
+    st.session_state.correcta_actual = None
 
     if st.session_state.indice >= len(st.session_state.preguntas):
         finalizar_sesion()
@@ -632,7 +657,6 @@ def finalizar_sesion():
             if inicio else 0
         )
 
-        # Mantiene el comportamiento general de la app original.
         actualizar_registro_diario(
             acertada=False,
             tiempo_gastado=tiempo,
@@ -714,4 +738,3 @@ elif st.session_state.pantalla == "results":
     results()
 elif st.session_state.pantalla == "stats":
     stats()
-
