@@ -416,30 +416,65 @@ st.markdown("""
 
 def dashboard():
     st.markdown('<div class="titulo">📚 Preparador del EIP</div>', unsafe_allow_html=True)
-    st.markdown('<div class="subtitulo">Preparación para el European Investment Practitioner</div>', unsafe_allow_html=True)
-    stats=get_global_stats(); today=get_today_stats(); modules=get_module_stats()
-    st.markdown("### 🎯 Tu progreso")
-    c1,c2,c3,c4=st.columns(4); c1.metric("Preguntas vistas",f"{stats['vistas']} / {stats['total']}"); c2.metric("Precisión",f"{stats['precision']*100:.0f}%"); c3.metric("Dominadas",stats['dominadas']); c4.metric("Para repasar",stats['pendientes'])
-    cobertura=stats['vistas']/stats['total'] if stats['total'] else 0; st.progress(cobertura); st.caption(f"Cobertura del banco: **{cobertura*100:.0f}%** · {stats['problematicas']} preguntas problemáticas")
+    st.markdown(
+        '<div class="subtitulo">Preparación para el European Investment Practitioner</div>',
+        unsafe_allow_html=True,
+    )
+
+    stats = get_global_stats()
+    today = get_today_stats()
+
+    # Resumen compacto del día
     if today and today[0]:
-        resp,ac,tiempo,racha=today; porc=ac/resp*100 if resp else 0; st.markdown("### 📅 Hoy"); c1,c2,c3,c4=st.columns(4); c1.metric("Preguntas",resp); c2.metric("Acierto",f"{porc:.0f}%"); c3.metric("Tiempo",f"{tiempo//60} min"); c4.metric("Racha",f"🔥 {racha}")
-    else: st.info("Todavía no has respondido preguntas hoy. ¡Vamos a empezar!")
-    st.divider(); st.selectbox("Seleccionar módulo",TEMAS_OFICIALES,key="tema")
-    col1,col2=st.columns(2)
+        respondidas, acertadas, tiempo, racha = today
+        porc = acertadas / respondidas * 100 if respondidas else 0
+
+        c1, c2, c3, c4 = st.columns(4)
+        c1.metric("Preguntas hoy", respondidas)
+        c2.metric("Acierto", f"{porc:.0f}%")
+        c3.metric("Tiempo", f"{tiempo // 60} min")
+        c4.metric("Racha", f"🔥 {racha}")
+    else:
+        st.info("Todavía no has respondido preguntas hoy. ¡Vamos a empezar!")
+
+    st.divider()
+
+    st.selectbox(
+        "Seleccionar módulo",
+        TEMAS_OFICIALES,
+        key="tema",
+    )
+
+    col1, col2 = st.columns(2)
+
     with col1:
-        if st.button("📝 Simulacro\n40 preguntas",use_container_width=True): iniciar_sesion("simulacro")
-        if st.button("🔄 Solo falladas",use_container_width=True): iniciar_sesion("falladas")
+        if st.button("📝 Simulacro\n40 preguntas", use_container_width=True):
+            iniciar_sesion("simulacro")
+
+        if st.button("🔄 Solo falladas", use_container_width=True):
+            iniciar_sesion("falladas")
+
     with col2:
-        if st.button("🧠 Repaso inteligente",use_container_width=True): iniciar_sesion("inteligente")
-        if st.button("🎲 Práctica libre",use_container_width=True): iniciar_sesion("libre")
-    st.divider(); st.markdown("### 📚 Estado de los módulos")
-    for m in modules:
-        st.markdown(f"**{m['emoji']} {m['nombre']}** · {m['nivel']} · Precisión {m['precision']*100:.0f}%"); st.progress(m['cobertura']); st.caption(f"Cobertura {m['cobertura']*100:.0f}% · Dominadas {m['dominadas']}/{m['total']}")
-    c1,c2=st.columns(2)
-    with c1:
-        if st.button("📊 Estadísticas completas",use_container_width=True): st.session_state.pantalla="stats"; st.rerun()
-    with c2:
-        if st.button("⚠️ Ver puntos débiles",use_container_width=True): st.session_state.pantalla="stats"; st.session_state.stats_tab="Debilidades"; st.rerun()
+        if st.button("🧠 Repaso inteligente", use_container_width=True):
+            iniciar_sesion("inteligente")
+
+        if st.button("🎲 Práctica libre", use_container_width=True):
+            iniciar_sesion("libre")
+
+    st.divider()
+
+    # Acceso a estadísticas, separado del dashboard
+    st.markdown("### 📊 Seguimiento")
+    st.caption(
+        f"{stats['vistas']} de {stats['total']} preguntas vistas · "
+        f"{stats['precision'] * 100:.0f}% de precisión · "
+        f"{stats['dominadas']} preguntas dominadas"
+    )
+
+    if st.button("📊 Ver estadísticas completas", use_container_width=True, type="primary"):
+        st.session_state.pantalla = "stats"
+        st.rerun()
+
 
 # ============================================================
 # SESIÓN
