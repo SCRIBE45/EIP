@@ -345,6 +345,7 @@ st.markdown("""
         font-weight: 650;
         line-height: 1.45;
         margin: 1rem 0 1.5rem 0;
+        text-align: left;
     }
 
     .tema {
