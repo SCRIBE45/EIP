@@ -5,6 +5,7 @@ import datetime
 from pathlib import Path
 import shutil
 import os
+import streamlit.components.v1 as components
 
 # ============================================================
 # CONFIGURACIÓN
@@ -514,7 +515,7 @@ def session():
         "libre": "🎲 Práctica libre",
     }
 
-    col1, col2 = st.columns([1, 2])
+    col1, col2, col3 = st.columns([1, 2, 1])
 
     with col1:
         if st.button("🏠 Inicio"):
@@ -523,6 +524,37 @@ def session():
 
     with col2:
         st.write(f"**{modos[st.session_state.modo]}**")
+        
+    with col3:
+        if st.session_state.modo == "simulacro" and st.session_state.inicio_simulacro:
+            # Calcular tiempo restante en backend
+            limite = st.session_state.inicio_simulacro + datetime.timedelta(hours=1)
+            restante = int((limite - datetime.datetime.now()).total_seconds())
+            
+            # Si el tiempo se ha acabado, forzamos el fin
+            if restante <= 0:
+                finalizar_sesion()
+                st.rerun()
+            
+            # Reloj visual en JavaScript
+            html_reloj = f"""
+            <div id="reloj" style="font-family: sans-serif; font-size: 1.2rem; font-weight: bold; color: #C63B3B; text-align: right;"></div>
+            <script>
+                var tiempo = {restante};
+                var timer = setInterval(function() {{
+                    if (tiempo <= 0) {{
+                        clearInterval(timer);
+                        document.getElementById('reloj').innerHTML = "⏱ 00:00";
+                    }} else {{
+                        var m = Math.floor(tiempo / 60);
+                        var s = Math.floor(tiempo % 60);
+                        document.getElementById('reloj').innerHTML = "⏱ " + (m < 10 ? "0" + m : m) + ":" + (s < 10 ? "0" + s : s);
+                        tiempo--;
+                    }}
+                }}, 1000);
+            </script>
+            """
+            components.html(html_reloj, height=35)
 
     st.progress((indice + 1) / total)
     st.caption(f"Pregunta {indice + 1} / {total}")
@@ -602,17 +634,20 @@ def responder(seleccion):
 
     actualizar_algoritmo(p, es_correcta)
 
-    if st.session_state.modo != "simulacro":
+    if st.session_state.modo == "simulacro":
+        # Flujo ininterrumpido: pasamos a la siguiente pregunta directamente
+        siguiente_pregunta()
+    else:
+        # Modo estudio: mostramos corrección y guardamos el registro diario
         actualizar_registro_diario(
             es_correcta,
             tiempo_gastado=15,
             racha=st.session_state.racha,
         )
-
-    st.session_state.seleccion = seleccion
-    st.session_state.resultado = es_correcta
-    st.session_state.explicacion = p[7] or ""
-    st.session_state.respondida = True
+        st.session_state.seleccion = seleccion
+        st.session_state.resultado = es_correcta
+        st.session_state.explicacion = p[7] or ""
+        st.session_state.respondida = True
 
 
 def siguiente_pregunta():
