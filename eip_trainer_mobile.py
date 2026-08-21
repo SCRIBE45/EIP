@@ -402,14 +402,14 @@ def dashboard():
         respondidas, acertadas, tiempo, racha = reg
         porc = acertadas / respondidas * 100
 
-        st.info(
-            f"📝 {respondidas} preguntas   |   "
-            f"🎯 {porc:.1f}% acierto   |   "
-            f"⏱ {tiempo // 60} min   |   "
-            f"🔥 Racha: {racha}"
-        )
+        st.success("¡Buen trabajo hoy! Aquí tienes tu resumen diario: 🚀")
+        c1, c2, c3, c4 = st.columns(4)
+        c1.metric("Preguntas", respondidas)
+        c2.metric("Aciertos", f"{porc:.0f}%")
+        c3.metric("Tiempo", f"{tiempo // 60} min")
+        c4.metric("Racha 🔥", racha)
     else:
-        st.info("📝 0 preguntas   |   🎯 0% acierto   |   ⏱ 0 min   |   🔥 0")
+        st.info("¡A por todas! Aún no has respondido preguntas hoy. 📝")
 
     st.selectbox(
         "Seleccionar módulo",
