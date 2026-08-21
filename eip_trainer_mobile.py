@@ -428,7 +428,7 @@ def dashboard():
     if today and today[0]:
         respondidas, acertadas, tiempo, racha = today
         porc = acertadas / respondidas * 100 if respondidas else 0
-
+        st.markdown("### 📅 Hoy")
         c1, c2, c3, c4 = st.columns(4)
         c1.metric("Preguntas hoy", respondidas)
         c2.metric("Acierto", f"{porc:.0f}%")
