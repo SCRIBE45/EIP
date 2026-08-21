@@ -560,9 +560,6 @@ def session():
     st.progress((indice + 1) / total)
     st.caption(f"Pregunta {indice + 1} / {total}")
 
-    tema_corto = p[8].split(". ", 1)[1] if ". " in p[8] else p[8]
-
-    st.markdown(f'<div class="tema">{tema_corto}</div>', unsafe_allow_html=True)
     st.markdown(f'<div class="pregunta">{p[1]}</div>', unsafe_allow_html=True)
 
     # Antes de responder
