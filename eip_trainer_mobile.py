@@ -390,7 +390,7 @@ st.markdown("""
 # ============================================================
 
 def dashboard():
-    st.markdown('<div class="titulo">📚 EIP Trainer</div>', unsafe_allow_html=True)
+    st.markdown('<div class="titulo">📚 Preparador del EIP</div>', unsafe_allow_html=True)
     st.markdown(
         '<div class="subtitulo">Preparación para el European Investment Practitioner</div>',
         unsafe_allow_html=True,
@@ -402,14 +402,14 @@ def dashboard():
         respondidas, acertadas, tiempo, racha = reg
         porc = acertadas / respondidas * 100
 
-        st.success("¡Buen trabajo hoy! Aquí tienes tu resumen diario: 🚀")
+        st.success("¡Buen trabajo! Aquí tienes tu resumen diario: 🚀")
         c1, c2, c3, c4 = st.columns(4)
-        c1.metric("Preguntas", respondidas)
-        c2.metric("Aciertos", f"{porc:.0f}%")
-        c3.metric("Tiempo", f"{tiempo // 60} min")
+        c1.metric("Preguntas 📝", respondidas)
+        c2.metric("Aciertos 🎯", f"{porc:.0f}%")
+        c3.metric("Tiempo ⏱", f"{tiempo // 60} min")
         c4.metric("Racha 🔥", racha)
     else:
-        st.info("¡A por todas! Aún no has respondido preguntas hoy. 📝")
+        st.info("¡Vamos a por la sesión de hoy. 📝")
 
     st.selectbox(
         "Seleccionar módulo",
@@ -739,24 +739,30 @@ def results():
 # ============================================================
 
 def stats():
-    st.title("📊 Estadísticas")
+    st.title("📊 Tu progreso de estudio")
 
-    if st.button("🏠 Inicio"):
+    if st.button("🏠 Volver al inicio"):
         st.session_state.pantalla = "dashboard"
         st.rerun()
 
+    st.write("¡Aquí tienes el resumen de cómo vas! Cada error es una oportunidad para aprender. 💪")
     st.divider()
 
     for tema, total, porc in get_module_stats():
         nombre = tema.split(". ", 1)[1] if ". " in tema else tema
+        
+        # Asignar un emoji según el nivel de dominio
+        if porc >= 0.8:
+            emoji = "🌟"
+        elif porc >= 0.5:
+            emoji = "👍"
+        else:
+            emoji = "💪"
 
-        st.write(f"**{nombre}**")
+        st.write(f"**{nombre}** {emoji}")
         st.progress(porc)
-        st.caption(
-            f"{porc * 100:.0f}% — {total} preguntas"
-        )
-
-        st.divider()
+        st.caption(f"Has dominado el {porc * 100:.0f}% de este módulo ({total} preguntas totales).")
+        st.write("") # Añade un poco de aire entre bloques
 
 
 # ============================================================
