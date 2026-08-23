@@ -9,5 +9,12 @@
       "ultima_vista": "2026-08-23"
     }
   },
-  "registro_diario": {}
+  "registro_diario": {
+    "2026-08-23": {
+      "respondidas": 1,
+      "acertadas": 0,
+      "tiempo_segundos": 15,
+      "racha_maxima": 0
+    }
+  }
 }
