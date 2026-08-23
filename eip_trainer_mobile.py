@@ -173,8 +173,8 @@ def actualizar_registro_diario(acertada, tiempo_gastado=0, racha=0):
     datos["registro_diario"][hoy] = reg
     st.session_state.cambios_pendientes += 1
     
-    # Guardado periódico en segundo plano cada 5 respuestas
-    if st.session_state.cambios_pendientes >= 5:
+    # Guardado periódico en segundo plano cada 10 respuestas
+    if st.session_state.cambios_pendientes >= 10:
         guardar_datos_remotos(datos)
 
 def actualizar_registro_sesion(respondidas, acertadas, tiempo_segundos=0, racha=0):
