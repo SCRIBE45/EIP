@@ -2,9 +2,10 @@ import streamlit as st
 import sqlite3
 import random
 import datetime
+import json
+import base64
+import requests
 from pathlib import Path
-import pandas as pd
-from streamlit_gsheets import GSheetsConnection
 import streamlit.components.v1 as components
 
 # ============================================================
@@ -30,95 +31,99 @@ TEMAS_OFICIALES = [
 ]
 
 DB_PATH = Path(__file__).parent / "examen.db"
+FILE_PROGRESS_PATH = "progreso.json"
 
 # ============================================================
-# CONEXIONES Y PERSISTENCIA (GOOGLE SHEETS + SQLITE FIJO)
+# PERSISTENCIA VÍA GITHUB API
 # ============================================================
 
 @st.cache_resource
 def get_db_connection():
-    # Conexión directa de solo lectura al archivo de GitHub
     return sqlite3.connect(str(DB_PATH), check_same_thread=False)
 
-conn_gsheets = st.connection("gsheets", type=GSheetsConnection)
+def get_github_headers():
+    token = st.secrets.get("GITHUB_TOKEN", "")
+    return {
+        "Authorization": f"token {token}",
+        "Accept": "application/vnd.github.v3+json"
+    }
 
-def get_progreso_df():
+def cargar_datos_remotos():
+    repo = st.secrets.get("GITHUB_REPO", "")
+    url = f"https://api.github.com/repos/{repo}/contents/{FILE_PROGRESS_PATH}"
+    headers = get_github_headers()
+    
     try:
-        df = conn_gsheets.read(worksheet="ProgresoPreguntas", ttl=0)
-        if df is None or df.empty:
-            return pd.DataFrame(columns=[
-                "id_pregunta", "veces_acertada", "veces_fallada",
-                "intervalo", "factor_facilidad", "proxima_revision", "ultima_vista"
-            ])
-        return df
+        res = requests.get(url, headers=headers)
+        if res.status_code == 200:
+            data = res.json()
+            content = base64.b64decode(data["content"]).decode("utf-8")
+            st.session_state["_github_sha"] = data["sha"]
+            return json.loads(content)
     except Exception:
-        return pd.DataFrame(columns=[
-            "id_pregunta", "veces_acertada", "veces_fallada",
-            "intervalo", "factor_facilidad", "proxima_revision", "ultima_vista"
-        ])
+        pass
+        
+    return {"progreso": {}, "registro_diario": {}}
 
-def get_registro_diario_df():
+def guardar_datos_remotos(datos):
+    repo = st.secrets.get("GITHUB_REPO", "")
+    if not repo:
+        return
+    url = f"https://api.github.com/repos/{repo}/contents/{FILE_PROGRESS_PATH}"
+    headers = get_github_headers()
+    
+    content_str = json.dumps(datos, indent=2)
+    content_b64 = base64.b64encode(content_str.encode("utf-8")).decode("utf-8")
+    
+    payload = {
+        "message": "Actualizar progreso de estudio [Skip CI]",
+        "content": content_b64
+    }
+    
+    if "_github_sha" in st.session_state and st.session_state["_github_sha"]:
+        payload["sha"] = st.session_state["_github_sha"]
+        
     try:
-        df = conn_gsheets.read(worksheet="RegistroDiario", ttl=0)
-        if df is None or df.empty:
-            return pd.DataFrame(columns=[
-                "fecha", "respondidas", "acertadas", "tiempo_segundos", "racha_maxima"
-            ])
-        return df
+        res = requests.put(url, headers=headers, json=payload)
+        if res.status_code in [200, 201]:
+            st.session_state["_github_sha"] = res.json()["content"]["sha"]
     except Exception:
-        return pd.DataFrame(columns=[
-            "fecha", "respondidas", "acertadas", "tiempo_segundos", "racha_maxima"
-        ])
+        pass
+
+if "datos_usuario" not in st.session_state:
+    st.session_state.datos_usuario = cargar_datos_remotos()
 
 def guardar_progreso_pregunta(id_preg, aciertos, fallos, intervalo, factor, proxima, hoy_str):
-    df = get_progreso_df()
-    if not df.empty:
-        df["id_pregunta"] = pd.to_numeric(df["id_pregunta"], errors="coerce")
-    
-    if not df.empty and int(id_preg) in df["id_pregunta"].values:
-        df.loc[df["id_pregunta"] == int(id_preg), [
-            "veces_acertada", "veces_fallada", "intervalo",
-            "factor_facilidad", "proxima_revision", "ultima_vista"
-        ]] = [int(aciertos), int(fallos), int(intervalo), float(factor), str(proxima), str(hoy_str)]
-    else:
-        nueva_fila = pd.DataFrame([{
-            "id_pregunta": int(id_preg),
-            "veces_acertada": int(aciertos),
-            "veces_fallada": int(fallos),
-            "intervalo": int(intervalo),
-            "factor_facilidad": float(factor),
-            "proxima_revision": str(proxima),
-            "ultima_vista": str(hoy_str)
-        }])
-        df = pd.concat([df, nueva_fila], ignore_index=True)
-        
-    conn_gsheets.update(worksheet="ProgresoPreguntas", data=df)
+    datos = st.session_state.datos_usuario
+    datos["progreso"][str(id_preg)] = {
+        "veces_acertada": aciertos,
+        "veces_fallada": fallos,
+        "intervalo": intervalo,
+        "factor_facilidad": factor,
+        "proxima_revision": proxima,
+        "ultima_vista": hoy_str
+    }
+    guardar_datos_remotos(datos)
 
 def actualizar_registro_diario(acertada, tiempo_gastado=0, racha=0):
-    df = get_registro_diario_df()
+    datos = st.session_state.datos_usuario
     hoy = datetime.date.today().isoformat()
     
-    if not df.empty and hoy in df["fecha"].values:
-        idx = df[df["fecha"] == hoy].index[0]
-        resp = int(df.at[idx, "respondidas"]) + 1
-        acert = int(df.at[idx, "acertadas"]) + (1 if acertada else 0)
-        tiempo = int(df.at[idx, "tiempo_segundos"]) + int(tiempo_gastado)
-        racha_max = max(int(df.at[idx, "racha_maxima"]), int(racha))
-        
-        df.loc[idx, ["respondidas", "acertadas", "tiempo_segundos", "racha_maxima"]] = [
-            resp, acert, tiempo, racha_max
-        ]
-    else:
-        nueva_fila = pd.DataFrame([{
-            "fecha": hoy,
-            "respondidas": 1,
-            "acertadas": 1 if acertada else 0,
-            "tiempo_segundos": int(tiempo_gastado),
-            "racha_maxima": int(racha)
-        }])
-        df = pd.concat([df, nueva_fila], ignore_index=True)
-        
-    conn_gsheets.update(worksheet="RegistroDiario", data=df)
+    reg = datos["registro_diario"].get(hoy, {
+        "respondidas": 0,
+        "acertadas": 0,
+        "tiempo_segundos": 0,
+        "racha_maxima": 0
+    })
+    
+    reg["respondidas"] += 1
+    if acertada:
+        reg["acertadas"] += 1
+    reg["tiempo_segundos"] += int(tiempo_gastado)
+    reg["racha_maxima"] = max(reg.get("racha_maxima", 0), int(racha))
+    
+    datos["registro_diario"][hoy] = reg
+    guardar_datos_remotos(datos)
 
 # ============================================================
 # FUNCIONES DE DATOS
@@ -137,27 +142,20 @@ def get_questions(modo, tema):
         parametros.append(tema)
 
     filas = conn.execute(query, parametros).fetchall()
-    progreso_df = get_progreso_df()
+    prog_dict = st.session_state.datos_usuario.get("progreso", {})
     
-    prog_dict = {}
-    if not progreso_df.empty:
-        progreso_df["id_pregunta"] = pd.to_numeric(progreso_df["id_pregunta"], errors="coerce")
-        for _, row in progreso_df.iterrows():
-            if pd.notna(row["id_pregunta"]):
-                prog_dict[int(row["id_pregunta"])] = row
-
     preguntas_completas = []
     hoy = datetime.date.today().isoformat()
 
     for p in filas:
-        p_id = p[0]
-        prog = prog_dict.get(p_id)
+        p_id = str(p[0])
+        prog = prog_dict.get(p_id, {})
         
-        aciertos = int(prog["veces_acertada"]) if prog is not None and pd.notna(prog["veces_acertada"]) else 0
-        fallos = int(prog["veces_fallada"]) if prog is not None and pd.notna(prog["veces_fallada"]) else 0
-        intervalo = int(prog["intervalo"]) if prog is not None and pd.notna(prog["intervalo"]) else 0
-        factor = float(prog["factor_facilidad"]) if prog is not None and pd.notna(prog["factor_facilidad"]) else 2.5
-        proxima = str(prog["proxima_revision"]) if prog is not None and pd.notna(prog["proxima_revision"]) else None
+        aciertos = prog.get("veces_acertada", 0)
+        fallos = prog.get("veces_fallada", 0)
+        intervalo = prog.get("intervalo", 0)
+        factor = prog.get("factor_facilidad", 2.5)
+        proxima = prog.get("proxima_revision", None)
 
         if modo == "inteligente":
             if proxima and proxima > hoy:
@@ -214,21 +212,20 @@ def actualizar_algoritmo(pregunta, es_correcta):
     return aciertos, fallos, intervalo, factor
 
 def get_today_stats():
-    df = get_registro_diario_df()
     hoy = datetime.date.today().isoformat()
-    if not df.empty and hoy in df["fecha"].values:
-        row = df[df["fecha"] == hoy].iloc[0]
+    reg = st.session_state.datos_usuario.get("registro_diario", {}).get(hoy)
+    if reg:
         return (
-            int(row["respondidas"]),
-            int(row["acertadas"]),
-            int(row["tiempo_segundos"]),
-            int(row["racha_maxima"])
+            reg.get("respondidas", 0),
+            reg.get("acertadas", 0),
+            reg.get("tiempo_segundos", 0),
+            reg.get("racha_maxima", 0)
         )
     return None
 
 def get_module_stats():
     conn = get_db_connection()
-    progreso_df = get_progreso_df()
+    prog_dict = st.session_state.datos_usuario.get("progreso", {})
     resultado = []
 
     for tema in TEMAS_OFICIALES[1:]:
@@ -237,17 +234,13 @@ def get_module_stats():
         ).fetchone()[0]
 
         ids_modulo = [
-            row[0] for row in conn.execute(
+            str(row[0]) for row in conn.execute(
                 "SELECT id FROM Preguntas WHERE tema=?", (tema,)
             ).fetchall()
         ]
 
-        if not progreso_df.empty and "id_pregunta" in progreso_df.columns:
-            prog_mod = progreso_df[progreso_df["id_pregunta"].isin(ids_modulo)]
-            aciertos = prog_mod["veces_acertada"].sum() if not prog_mod.empty else 0
-            fallos = prog_mod["veces_fallada"].sum() if not prog_mod.empty else 0
-        else:
-            aciertos, fallos = 0, 0
+        aciertos = sum(prog_dict.get(pid, {}).get("veces_acertada", 0) for pid in ids_modulo)
+        fallos = sum(prog_dict.get(pid, {}).get("veces_fallada", 0) for pid in ids_modulo)
 
         porc = aciertos / (aciertos + fallos) if (aciertos + fallos) > 0 else 0
         resultado.append((tema, total, porc))
