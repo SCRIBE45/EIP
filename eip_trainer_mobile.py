@@ -91,11 +91,15 @@ def guardar_datos_remotos(datos):
         res = requests.put(url, headers=headers, json=payload)
         if res.status_code in [200, 201]:
             st.session_state["_github_sha"] = res.json()["content"]["sha"]
+            st.session_state["cambios_pendientes"] = 0
     except Exception:
         pass
 
 if "datos_usuario" not in st.session_state:
     st.session_state.datos_usuario = cargar_datos_remotos()
+
+if "cambios_pendientes" not in st.session_state:
+    st.session_state.cambios_pendientes = 0
 
 
 # ============================================================
@@ -167,7 +171,11 @@ def actualizar_registro_diario(acertada, tiempo_gastado=0, racha=0):
     reg["racha_maxima"] = max(reg.get("racha_maxima", 0), int(racha))
     
     datos["registro_diario"][hoy] = reg
-    guardar_datos_remotos(datos)
+    st.session_state.cambios_pendientes += 1
+    
+    # Guardado periódico en segundo plano cada 5 respuestas
+    if st.session_state.cambios_pendientes >= 5:
+        guardar_datos_remotos(datos)
 
 def actualizar_registro_sesion(respondidas, acertadas, tiempo_segundos=0, racha=0):
     datos = st.session_state.datos_usuario
@@ -226,7 +234,6 @@ def actualizar_algoritmo(pregunta, es_correcta):
         "proxima_revision": proxima,
         "ultima_vista": hoy.isoformat()
     }
-    guardar_datos_remotos(datos)
 
     return aciertos, fallos, intervalo, factor
 
@@ -576,11 +583,10 @@ def session():
 
     if not preguntas:
         st.warning("No hay preguntas disponibles para este modo/filtro.")
-
         if st.button("🏠 Volver al inicio"):
+            guardar_datos_remotos(st.session_state.datos_usuario)
             st.session_state.pantalla = "dashboard"
             st.rerun()
-
         return
 
     p = preguntas[indice]
@@ -619,6 +625,7 @@ def session():
 
     with col1:
         if st.button("🏠 Inicio"):
+            guardar_datos_remotos(st.session_state.datos_usuario)
             st.session_state.pantalla = "dashboard"
             st.rerun()
 
@@ -789,6 +796,8 @@ def finalizar_sesion():
             tiempo_segundos=tiempo,
             racha=st.session_state.racha,
         )
+    else:
+        guardar_datos_remotos(st.session_state.datos_usuario)
 
     st.session_state.nota = nota
     st.session_state.pantalla = "results"
