@@ -31,6 +31,14 @@
       "factor_facilidad": 2.6,
       "proxima_revision": "2026-08-24",
       "ultima_vista": "2026-08-23"
+    },
+    "1523": {
+      "veces_acertada": 0,
+      "veces_fallada": 1,
+      "intervalo": 0,
+      "factor_facilidad": 2.3,
+      "proxima_revision": "2026-08-23",
+      "ultima_vista": "2026-08-23"
     }
   },
   "registro_diario": {
