@@ -35,10 +35,10 @@
   },
   "registro_diario": {
     "2026-08-23": {
-      "respondidas": 3,
-      "acertadas": 2,
-      "tiempo_segundos": 45,
-      "racha_maxima": 2
+      "respondidas": 4,
+      "acertadas": 3,
+      "tiempo_segundos": 60,
+      "racha_maxima": 3
     }
   }
 }
