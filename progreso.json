@@ -1169,12 +1169,12 @@
       "ultima_vista": "2026-08-24"
     },
     "1035": {
-      "veces_acertada": 1,
+      "veces_acertada": 2,
       "veces_fallada": 0,
-      "intervalo": 1,
-      "factor_facilidad": 2.6,
-      "proxima_revision": "2026-08-25",
-      "ultima_vista": "2026-08-24"
+      "intervalo": 3,
+      "factor_facilidad": 2.7,
+      "proxima_revision": "2026-08-28",
+      "ultima_vista": "2026-08-25"
     },
     "433": {
       "veces_acertada": 1,
@@ -2535,6 +2535,38 @@
       "factor_facilidad": 2.6,
       "proxima_revision": "2026-08-26",
       "ultima_vista": "2026-08-25"
+    },
+    "77": {
+      "veces_acertada": 1,
+      "veces_fallada": 0,
+      "intervalo": 1,
+      "factor_facilidad": 2.6,
+      "proxima_revision": "2026-08-26",
+      "ultima_vista": "2026-08-25"
+    },
+    "1299": {
+      "veces_acertada": 0,
+      "veces_fallada": 1,
+      "intervalo": 0,
+      "factor_facilidad": 2.3,
+      "proxima_revision": "2026-08-25",
+      "ultima_vista": "2026-08-25"
+    },
+    "437": {
+      "veces_acertada": 1,
+      "veces_fallada": 0,
+      "intervalo": 1,
+      "factor_facilidad": 2.6,
+      "proxima_revision": "2026-08-26",
+      "ultima_vista": "2026-08-25"
+    },
+    "856": {
+      "veces_acertada": 1,
+      "veces_fallada": 0,
+      "intervalo": 1,
+      "factor_facilidad": 2.6,
+      "proxima_revision": "2026-08-26",
+      "ultima_vista": "2026-08-25"
     }
   },
   "registro_diario": {
@@ -2545,9 +2577,9 @@
       "racha_maxima": 17
     },
     "2026-08-25": {
-      "respondidas": 319,
-      "acertadas": 249,
-      "tiempo_segundos": 4785,
+      "respondidas": 324,
+      "acertadas": 253,
+      "tiempo_segundos": 4860,
       "racha_maxima": 19
     }
   }
