@@ -2226,11 +2226,11 @@
     },
     "1301": {
       "veces_acertada": 0,
-      "veces_fallada": 1,
+      "veces_fallada": 2,
       "intervalo": 0,
-      "factor_facilidad": 2.3,
-      "proxima_revision": "2026-08-25",
-      "ultima_vista": "2026-08-25"
+      "factor_facilidad": 2.0999999999999996,
+      "proxima_revision": "2026-08-26",
+      "ultima_vista": "2026-08-26"
     },
     "912": {
       "veces_acertada": 1,
@@ -3087,9 +3087,9 @@
       "racha_maxima": 19
     },
     "2026-08-26": {
-      "respondidas": 125,
+      "respondidas": 126,
       "acertadas": 106,
-      "tiempo_segundos": 1875,
+      "tiempo_segundos": 1890,
       "racha_maxima": 14
     }
   }
