@@ -3071,6 +3071,22 @@
       "factor_facilidad": 2.6,
       "proxima_revision": "2026-08-27",
       "ultima_vista": "2026-08-26"
+    },
+    "1105": {
+      "veces_acertada": 1,
+      "veces_fallada": 0,
+      "intervalo": 1,
+      "factor_facilidad": 2.6,
+      "proxima_revision": "2026-08-27",
+      "ultima_vista": "2026-08-26"
+    },
+    "546": {
+      "veces_acertada": 1,
+      "veces_fallada": 0,
+      "intervalo": 1,
+      "factor_facilidad": 2.6,
+      "proxima_revision": "2026-08-27",
+      "ultima_vista": "2026-08-26"
     }
   },
   "registro_diario": {
@@ -3087,9 +3103,9 @@
       "racha_maxima": 19
     },
     "2026-08-26": {
-      "respondidas": 126,
-      "acertadas": 106,
-      "tiempo_segundos": 1890,
+      "respondidas": 128,
+      "acertadas": 108,
+      "tiempo_segundos": 1920,
       "racha_maxima": 14
     }
   }
