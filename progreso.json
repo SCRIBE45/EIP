@@ -1625,12 +1625,12 @@
       "ultima_vista": "2026-08-26"
     },
     "931": {
-      "veces_acertada": 0,
+      "veces_acertada": 1,
       "veces_fallada": 1,
-      "intervalo": 0,
-      "factor_facilidad": 2.3,
-      "proxima_revision": "2026-08-25",
-      "ultima_vista": "2026-08-25"
+      "intervalo": 1,
+      "factor_facilidad": 2.4,
+      "proxima_revision": "2026-08-27",
+      "ultima_vista": "2026-08-26"
     },
     "1581": {
       "veces_acertada": 2,
@@ -3199,9 +3199,9 @@
       "racha_maxima": 19
     },
     "2026-08-26": {
-      "respondidas": 148,
-      "acertadas": 124,
-      "tiempo_segundos": 2220,
+      "respondidas": 149,
+      "acertadas": 125,
+      "tiempo_segundos": 2235,
       "racha_maxima": 14
     }
   }
