@@ -1361,12 +1361,12 @@
       "ultima_vista": "2026-08-25"
     },
     "1025": {
-      "veces_acertada": 1,
+      "veces_acertada": 2,
       "veces_fallada": 0,
-      "intervalo": 1,
-      "factor_facilidad": 2.6,
-      "proxima_revision": "2026-08-26",
-      "ultima_vista": "2026-08-25"
+      "intervalo": 3,
+      "factor_facilidad": 2.7,
+      "proxima_revision": "2026-08-30",
+      "ultima_vista": "2026-08-27"
     },
     "2": {
       "veces_acertada": 1,
@@ -1529,20 +1529,20 @@
       "ultima_vista": "2026-08-25"
     },
     "1176": {
-      "veces_acertada": 1,
+      "veces_acertada": 2,
       "veces_fallada": 6,
-      "intervalo": 1,
-      "factor_facilidad": 1.4000000000000001,
-      "proxima_revision": "2026-08-27",
-      "ultima_vista": "2026-08-26"
+      "intervalo": 3,
+      "factor_facilidad": 1.5000000000000002,
+      "proxima_revision": "2026-08-30",
+      "ultima_vista": "2026-08-27"
     },
     "1170": {
-      "veces_acertada": 1,
+      "veces_acertada": 2,
       "veces_fallada": 2,
-      "intervalo": 1,
-      "factor_facilidad": 2.1999999999999997,
-      "proxima_revision": "2026-08-27",
-      "ultima_vista": "2026-08-26"
+      "intervalo": 3,
+      "factor_facilidad": 2.3,
+      "proxima_revision": "2026-08-30",
+      "ultima_vista": "2026-08-27"
     },
     "524": {
       "veces_acertada": 1,
@@ -1569,12 +1569,12 @@
       "ultima_vista": "2026-08-25"
     },
     "829": {
-      "veces_acertada": 1,
+      "veces_acertada": 2,
       "veces_fallada": 2,
-      "intervalo": 1,
-      "factor_facilidad": 2.1999999999999997,
-      "proxima_revision": "2026-08-27",
-      "ultima_vista": "2026-08-26"
+      "intervalo": 3,
+      "factor_facilidad": 2.3,
+      "proxima_revision": "2026-08-30",
+      "ultima_vista": "2026-08-27"
     },
     "1303": {
       "veces_acertada": 2,
@@ -1649,12 +1649,12 @@
       "ultima_vista": "2026-08-25"
     },
     "1219": {
-      "veces_acertada": 1,
+      "veces_acertada": 2,
       "veces_fallada": 4,
-      "intervalo": 1,
-      "factor_facilidad": 1.9,
-      "proxima_revision": "2026-08-27",
-      "ultima_vista": "2026-08-26"
+      "intervalo": 3,
+      "factor_facilidad": 2.0,
+      "proxima_revision": "2026-08-30",
+      "ultima_vista": "2026-08-27"
     },
     "744": {
       "veces_acertada": 1,
@@ -2065,12 +2065,12 @@
       "ultima_vista": "2026-08-25"
     },
     "1322": {
-      "veces_acertada": 1,
+      "veces_acertada": 2,
       "veces_fallada": 2,
-      "intervalo": 1,
-      "factor_facilidad": 2.1999999999999997,
-      "proxima_revision": "2026-08-27",
-      "ultima_vista": "2026-08-26"
+      "intervalo": 3,
+      "factor_facilidad": 2.3,
+      "proxima_revision": "2026-08-30",
+      "ultima_vista": "2026-08-27"
     },
     "608": {
       "veces_acertada": 1,
@@ -3191,6 +3191,38 @@
       "factor_facilidad": 2.6,
       "proxima_revision": "2026-08-27",
       "ultima_vista": "2026-08-26"
+    },
+    "1307": {
+      "veces_acertada": 1,
+      "veces_fallada": 0,
+      "intervalo": 1,
+      "factor_facilidad": 2.6,
+      "proxima_revision": "2026-08-28",
+      "ultima_vista": "2026-08-27"
+    },
+    "795": {
+      "veces_acertada": 1,
+      "veces_fallada": 0,
+      "intervalo": 1,
+      "factor_facilidad": 2.6,
+      "proxima_revision": "2026-08-28",
+      "ultima_vista": "2026-08-27"
+    },
+    "1373": {
+      "veces_acertada": 1,
+      "veces_fallada": 0,
+      "intervalo": 1,
+      "factor_facilidad": 2.6,
+      "proxima_revision": "2026-08-28",
+      "ultima_vista": "2026-08-27"
+    },
+    "1403": {
+      "veces_acertada": 1,
+      "veces_fallada": 0,
+      "intervalo": 1,
+      "factor_facilidad": 2.6,
+      "proxima_revision": "2026-08-28",
+      "ultima_vista": "2026-08-27"
     }
   },
   "registro_diario": {
@@ -3211,6 +3243,12 @@
       "acertadas": 126,
       "tiempo_segundos": 2250,
       "racha_maxima": 14
+    },
+    "2026-08-27": {
+      "respondidas": 10,
+      "acertadas": 10,
+      "tiempo_segundos": 150,
+      "racha_maxima": 10
     }
   }
 }
