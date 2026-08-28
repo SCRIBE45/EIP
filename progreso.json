@@ -113,12 +113,12 @@
       "ultima_vista": "2026-08-24"
     },
     "1202": {
-      "veces_acertada": 2,
+      "veces_acertada": 3,
       "veces_fallada": 0,
-      "intervalo": 3,
-      "factor_facilidad": 2.7,
-      "proxima_revision": "2026-08-28",
-      "ultima_vista": "2026-08-25"
+      "intervalo": 8,
+      "factor_facilidad": 2.8000000000000003,
+      "proxima_revision": "2026-09-05",
+      "ultima_vista": "2026-08-28"
     },
     "520": {
       "veces_acertada": 2,
@@ -473,12 +473,12 @@
       "ultima_vista": "2026-08-24"
     },
     "1499": {
-      "veces_acertada": 2,
+      "veces_acertada": 3,
       "veces_fallada": 0,
-      "intervalo": 3,
-      "factor_facilidad": 2.7,
-      "proxima_revision": "2026-08-28",
-      "ultima_vista": "2026-08-25"
+      "intervalo": 8,
+      "factor_facilidad": 2.8000000000000003,
+      "proxima_revision": "2026-09-05",
+      "ultima_vista": "2026-08-28"
     },
     "319": {
       "veces_acertada": 1,
@@ -841,12 +841,12 @@
       "ultima_vista": "2026-08-27"
     },
     "418": {
-      "veces_acertada": 2,
+      "veces_acertada": 3,
       "veces_fallada": 0,
-      "intervalo": 3,
-      "factor_facilidad": 2.7,
-      "proxima_revision": "2026-08-28",
-      "ultima_vista": "2026-08-25"
+      "intervalo": 8,
+      "factor_facilidad": 2.8000000000000003,
+      "proxima_revision": "2026-09-05",
+      "ultima_vista": "2026-08-28"
     },
     "1017": {
       "veces_acertada": 2,
@@ -913,12 +913,12 @@
       "ultima_vista": "2026-08-25"
     },
     "704": {
-      "veces_acertada": 1,
+      "veces_acertada": 2,
       "veces_fallada": 0,
-      "intervalo": 1,
-      "factor_facilidad": 2.6,
-      "proxima_revision": "2026-08-25",
-      "ultima_vista": "2026-08-24"
+      "intervalo": 3,
+      "factor_facilidad": 2.7,
+      "proxima_revision": "2026-08-31",
+      "ultima_vista": "2026-08-28"
     },
     "960": {
       "veces_acertada": 2,
@@ -2905,12 +2905,12 @@
       "ultima_vista": "2026-08-27"
     },
     "478": {
-      "veces_acertada": 1,
+      "veces_acertada": 2,
       "veces_fallada": 0,
-      "intervalo": 1,
-      "factor_facilidad": 2.6,
-      "proxima_revision": "2026-08-27",
-      "ultima_vista": "2026-08-26"
+      "intervalo": 3,
+      "factor_facilidad": 2.7,
+      "proxima_revision": "2026-08-31",
+      "ultima_vista": "2026-08-28"
     },
     "1104": {
       "veces_acertada": 1,
@@ -3145,12 +3145,12 @@
       "ultima_vista": "2026-08-27"
     },
     "484": {
-      "veces_acertada": 1,
+      "veces_acertada": 2,
       "veces_fallada": 0,
-      "intervalo": 1,
-      "factor_facilidad": 2.6,
-      "proxima_revision": "2026-08-27",
-      "ultima_vista": "2026-08-26"
+      "intervalo": 3,
+      "factor_facilidad": 2.7,
+      "proxima_revision": "2026-08-31",
+      "ultima_vista": "2026-08-28"
     },
     "1389": {
       "veces_acertada": 1,
@@ -3943,6 +3943,38 @@
       "factor_facilidad": 2.6,
       "proxima_revision": "2026-08-28",
       "ultima_vista": "2026-08-27"
+    },
+    "687": {
+      "veces_acertada": 1,
+      "veces_fallada": 0,
+      "intervalo": 1,
+      "factor_facilidad": 2.6,
+      "proxima_revision": "2026-08-29",
+      "ultima_vista": "2026-08-28"
+    },
+    "93": {
+      "veces_acertada": 0,
+      "veces_fallada": 1,
+      "intervalo": 0,
+      "factor_facilidad": 2.3,
+      "proxima_revision": "2026-08-28",
+      "ultima_vista": "2026-08-28"
+    },
+    "705": {
+      "veces_acertada": 0,
+      "veces_fallada": 1,
+      "intervalo": 0,
+      "factor_facilidad": 2.3,
+      "proxima_revision": "2026-08-28",
+      "ultima_vista": "2026-08-28"
+    },
+    "1452": {
+      "veces_acertada": 1,
+      "veces_fallada": 0,
+      "intervalo": 1,
+      "factor_facilidad": 2.6,
+      "proxima_revision": "2026-08-29",
+      "ultima_vista": "2026-08-28"
     }
   },
   "registro_diario": {
@@ -3969,6 +4001,12 @@
       "acertadas": 184,
       "tiempo_segundos": 3150,
       "racha_maxima": 22
+    },
+    "2026-08-28": {
+      "respondidas": 10,
+      "acertadas": 8,
+      "tiempo_segundos": 150,
+      "racha_maxima": 3
     }
   }
 }
