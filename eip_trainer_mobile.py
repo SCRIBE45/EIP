@@ -105,6 +105,61 @@ if "cambios_pendientes" not in st.session_state:
 # ============================================================
 # FUNCIONES DE DATOS Y ESTADÍSTICAS
 # ============================================================
+def seleccionar_pregunta(grupos, pesos):
+    disponibles = [
+        (nombre, peso)
+        for nombre, peso in pesos.items()
+        if grupos.get(nombre)
+    ]
+
+    if not disponibles:
+        return None
+
+    nombres = [x[0] for x in disponibles]
+    pesos_disponibles = [x[1] for x in disponibles]
+
+    return random.choices(
+        nombres,
+        weights=pesos_disponibles,
+        k=1
+    )[0]
+
+
+def construir_cola_inteligente(nuevas, pendientes, falladas, cobertura):
+    grupos = {
+        "nuevas": nuevas.copy(),
+        "pendientes": pendientes.copy(),
+        "falladas": falladas.copy()
+    }
+
+    random.shuffle(grupos["nuevas"])
+    random.shuffle(grupos["pendientes"])
+
+    grupos["falladas"].sort(
+        key=lambda x: (
+            -(x[10] or 0),  # Más fallos
+            (x[9] or 0)     # Menos aciertos
+        )
+    )
+
+    resultado = []
+
+    if cobertura < 0.70:
+        pesos = {"nuevas": 70, "falladas": 20, "pendientes": 10}
+    elif cobertura < 0.90:
+        pesos = {"nuevas": 40, "falladas": 30, "pendientes": 30}
+    else:
+        pesos = {"nuevas": 10, "falladas": 45, "pendientes": 45}
+
+    while any(grupos.values()):
+        grupo_seleccionado = seleccionar_pregunta(grupos, pesos)
+        if grupo_seleccionado is None:
+            break
+        pregunta = grupos[grupo_seleccionado].pop(0)
+        resultado.append(pregunta)
+
+    return resultado
+
 
 def get_questions(modo, tema):
     conn = get_db_connection()
@@ -120,38 +175,57 @@ def get_questions(modo, tema):
 
     filas = conn.execute(query, parametros).fetchall()
     prog_dict = st.session_state.datos_usuario.get("progreso", {})
-    
-    preguntas_completas = []
     hoy = datetime.date.today().isoformat()
+
+    preguntas_completas = []
+    nuevas = []
+    pendientes = []
+    falladas = []
 
     for p in filas:
         p_id = str(p[0])
         prog = prog_dict.get(p_id, {})
-        
+
         aciertos = prog.get("veces_acertada", 0)
         fallos = prog.get("veces_fallada", 0)
         intervalo = prog.get("intervalo", 0)
         factor = prog.get("factor_facilidad", 2.5)
         proxima = prog.get("proxima_revision", None)
 
-        if modo == "inteligente":
-            if proxima and proxima > hoy:
-                continue
-        elif modo == "falladas":
-            if fallos == 0:
-                continue
-
-        preguntas_completas.append((
-            p[0], p[1], p[2], p[3], p[4], p[5], p[6], p[7], p[8],
+        pregunta = (
+            p[0], p[1], p[2], p[3], p[4], p[5],
+            p[6], p[7], p[8],
             aciertos, fallos, intervalo, factor, proxima
-        ))
+        )
+        preguntas_completas.append(pregunta)
 
-    if modo == "simulacro":
+        # Clasificación
+        if aciertos == 0 and fallos == 0:
+            nuevas.append(pregunta)
+        elif fallos > aciertos:
+            falladas.append(pregunta)
+        elif proxima and proxima <= hoy:
+            pendientes.append(pregunta)
+
+    if modo == "inteligente":
+        vistas = len(filas) - len(nuevas)
+        total = len(filas)
+        cobertura = vistas / total if total else 0
+        return construir_cola_inteligente(nuevas, pendientes, falladas, cobertura)
+
+    elif modo == "falladas":
+        resultado = [p for p in preguntas_completas if p[10] > 0]
+        resultado.sort(key=lambda x: (-(x[10] or 0), (x[9] or 0)))
+        return resultado
+
+    elif modo == "simulacro":
         random.shuffle(preguntas_completas)
         return preguntas_completas[:40]
+
     else:
         random.shuffle(preguntas_completas)
         return preguntas_completas
+
 
 def actualizar_registro_diario(acertada, tiempo_gastado=0, racha=0):
     datos = st.session_state.datos_usuario
@@ -173,28 +247,9 @@ def actualizar_registro_diario(acertada, tiempo_gastado=0, racha=0):
     datos["registro_diario"][hoy] = reg
     st.session_state.cambios_pendientes += 1
     
-    # Guardado periódico en segundo plano cada 10 respuestas
     if st.session_state.cambios_pendientes >= 10:
         guardar_datos_remotos(datos)
 
-def actualizar_registro_sesion(respondidas, acertadas, tiempo_segundos=0, racha=0):
-    datos = st.session_state.datos_usuario
-    hoy = datetime.date.today().isoformat()
-    
-    reg = datos["registro_diario"].get(hoy, {
-        "respondidas": 0,
-        "acertadas": 0,
-        "tiempo_segundos": 0,
-        "racha_maxima": 0
-    })
-    
-    reg["respondidas"] += int(respondidas)
-    reg["acertadas"] += int(acertadas)
-    reg["tiempo_segundos"] += int(tiempo_segundos)
-    reg["racha_maxima"] = max(reg.get("racha_maxima", 0), int(racha))
-    
-    datos["registro_diario"][hoy] = reg
-    guardar_datos_remotos(datos)
 
 def actualizar_algoritmo(pregunta, es_correcta):
     (
@@ -219,7 +274,7 @@ def actualizar_algoritmo(pregunta, es_correcta):
     else:
         aciertos = 0
         fallos += 1
-        intervalo = 0
+        intervalo = 1  # 1 día para repasar pronto sin ser inmediato
         factor = max(1.3, factor - 0.2)
 
     hoy = datetime.date.today()
@@ -747,24 +802,58 @@ def responder(seleccion):
         st.session_state.explicacion = p[7] or ""
         st.session_state.respondida = True
 
-
 def siguiente_pregunta():
+
     preguntas = st.session_state.preguntas
     indice = st.session_state.indice
 
-    if indice + 1 < len(preguntas):
+    # ============================================================
+    # IMPORTANTE
+    #
+    # No volvemos a mezclar las preguntas en modo inteligente.
+    # El orden ya ha sido calculado por construir_cola_inteligente().
+    #
+    # Así mantenemos las proporciones:
+    # nuevas / falladas / pendientes
+    # ============================================================
+
+    if (
+        st.session_state.modo != "inteligente"
+        and indice + 1 < len(preguntas)
+    ):
+
         pendientes = preguntas[indice + 1:]
 
         racha = st.session_state.racha
 
         if racha >= 5:
-            pendientes.sort(key=lambda x: (x[12], -(x[10] or 0)))
+
+            pendientes.sort(
+                key=lambda x: (
+                    x[12],
+                    -(x[10] or 0)
+                )
+            )
+
         elif racha == 0:
-            pendientes.sort(key=lambda x: (-(x[12] or 0), x[9] or 0))
+
+            pendientes.sort(
+                key=lambda x: (
+                    -(x[12] or 0),
+                    x[9] or 0
+                )
+            )
+
         else:
+
             random.shuffle(pendientes)
 
         st.session_state.preguntas[indice + 1:] = pendientes
+
+
+    # ============================================================
+    # SIGUIENTE PREGUNTA
+    # ============================================================
 
     st.session_state.indice += 1
     st.session_state.respondida = False
@@ -774,9 +863,15 @@ def siguiente_pregunta():
     st.session_state.opciones_actuales = None
     st.session_state.correcta_actual = None
 
-    if st.session_state.indice >= len(st.session_state.preguntas):
-        finalizar_sesion()
 
+    # ============================================================
+    # FINAL DE SESIÓN
+    # ============================================================
+
+    if st.session_state.indice >= len(
+        st.session_state.preguntas
+    ):
+        finalizar_sesion()
 
 def finalizar_sesion():
     total = len(st.session_state.preguntas)
