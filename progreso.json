@@ -4983,6 +4983,14 @@
       "factor_facilidad": 2.6,
       "proxima_revision": "2026-09-01",
       "ultima_vista": "2026-08-31"
+    },
+    "708": {
+      "veces_acertada": 1,
+      "veces_fallada": 0,
+      "intervalo": 1,
+      "factor_facilidad": 2.6,
+      "proxima_revision": "2026-09-01",
+      "ultima_vista": "2026-08-31"
     }
   },
   "registro_diario": {
@@ -5023,9 +5031,9 @@
       "racha_maxima": 3
     },
     "2026-08-31": {
-      "respondidas": 30,
-      "acertadas": 20,
-      "tiempo_segundos": 450,
+      "respondidas": 31,
+      "acertadas": 21,
+      "tiempo_segundos": 465,
       "racha_maxima": 7
     }
   }
