@@ -5792,5 +5792,9 @@
       "tiempo_segundos": 1215,
       "racha_maxima": 12
     }
+  },
+  "repaso_inteligente": {
+    "fecha": "2026-09-02",
+    "vistas": []
   }
 }
