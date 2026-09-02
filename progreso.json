@@ -4458,11 +4458,11 @@
     },
     "369": {
       "veces_acertada": 0,
-      "veces_fallada": 1,
-      "intervalo": 0,
-      "factor_facilidad": 2.3,
-      "proxima_revision": "2026-08-28",
-      "ultima_vista": "2026-08-28"
+      "veces_fallada": 2,
+      "intervalo": 1,
+      "factor_facilidad": 2.0999999999999996,
+      "proxima_revision": "2026-09-03",
+      "ultima_vista": "2026-09-02"
     },
     "669": {
       "veces_acertada": 1,
@@ -5915,9 +5915,9 @@
       "racha_maxima": 5
     },
     "2026-09-02": {
-      "respondidas": 101,
+      "respondidas": 102,
       "acertadas": 80,
-      "tiempo_segundos": 1515,
+      "tiempo_segundos": 1530,
       "racha_maxima": 12
     }
   },
@@ -5936,6 +5936,7 @@
       "258",
       "304",
       "364",
+      "369",
       "375",
       "631",
       "698",
