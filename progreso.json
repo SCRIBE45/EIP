@@ -457,12 +457,12 @@
       "ultima_vista": "2026-08-28"
     },
     "1338": {
-      "veces_acertada": 2,
+      "veces_acertada": 3,
       "veces_fallada": 0,
-      "intervalo": 3,
-      "factor_facilidad": 2.7,
-      "proxima_revision": "2026-08-31",
-      "ultima_vista": "2026-08-28"
+      "intervalo": 8,
+      "factor_facilidad": 2.8000000000000003,
+      "proxima_revision": "2026-09-12",
+      "ultima_vista": "2026-09-04"
     },
     "1304": {
       "veces_acertada": 1,
@@ -4409,12 +4409,12 @@
       "ultima_vista": "2026-08-28"
     },
     "876": {
-      "veces_acertada": 0,
+      "veces_acertada": 1,
       "veces_fallada": 1,
-      "intervalo": 0,
-      "factor_facilidad": 2.3,
-      "proxima_revision": "2026-08-28",
-      "ultima_vista": "2026-08-28"
+      "intervalo": 1,
+      "factor_facilidad": 2.4,
+      "proxima_revision": "2026-09-05",
+      "ultima_vista": "2026-09-04"
     },
     "1256": {
       "veces_acertada": 0,
@@ -5417,12 +5417,12 @@
       "ultima_vista": "2026-09-02"
     },
     "891": {
-      "veces_acertada": 0,
+      "veces_acertada": 1,
       "veces_fallada": 1,
       "intervalo": 1,
-      "factor_facilidad": 2.3,
-      "proxima_revision": "2026-09-03",
-      "ultima_vista": "2026-09-02"
+      "factor_facilidad": 2.4,
+      "proxima_revision": "2026-09-05",
+      "ultima_vista": "2026-09-04"
     },
     "1501": {
       "veces_acertada": 1,
@@ -6847,6 +6847,62 @@
       "factor_facilidad": 2.6,
       "proxima_revision": "2026-09-05",
       "ultima_vista": "2026-09-04"
+    },
+    "1218": {
+      "veces_acertada": 1,
+      "veces_fallada": 0,
+      "intervalo": 1,
+      "factor_facilidad": 2.6,
+      "proxima_revision": "2026-09-05",
+      "ultima_vista": "2026-09-04"
+    },
+    "813": {
+      "veces_acertada": 1,
+      "veces_fallada": 0,
+      "intervalo": 1,
+      "factor_facilidad": 2.6,
+      "proxima_revision": "2026-09-05",
+      "ultima_vista": "2026-09-04"
+    },
+    "1": {
+      "veces_acertada": 1,
+      "veces_fallada": 0,
+      "intervalo": 1,
+      "factor_facilidad": 2.6,
+      "proxima_revision": "2026-09-05",
+      "ultima_vista": "2026-09-04"
+    },
+    "50": {
+      "veces_acertada": 0,
+      "veces_fallada": 1,
+      "intervalo": 1,
+      "factor_facilidad": 2.3,
+      "proxima_revision": "2026-09-05",
+      "ultima_vista": "2026-09-04"
+    },
+    "1362": {
+      "veces_acertada": 1,
+      "veces_fallada": 0,
+      "intervalo": 1,
+      "factor_facilidad": 2.6,
+      "proxima_revision": "2026-09-05",
+      "ultima_vista": "2026-09-04"
+    },
+    "575": {
+      "veces_acertada": 1,
+      "veces_fallada": 0,
+      "intervalo": 1,
+      "factor_facilidad": 2.6,
+      "proxima_revision": "2026-09-05",
+      "ultima_vista": "2026-09-04"
+    },
+    "59": {
+      "veces_acertada": 1,
+      "veces_fallada": 0,
+      "intervalo": 1,
+      "factor_facilidad": 2.6,
+      "proxima_revision": "2026-09-05",
+      "ultima_vista": "2026-09-04"
     }
   },
   "registro_diario": {
@@ -6911,15 +6967,16 @@
       "racha_maxima": 7
     },
     "2026-09-04": {
-      "respondidas": 150,
-      "acertadas": 107,
-      "tiempo_segundos": 2250,
+      "respondidas": 160,
+      "acertadas": 116,
+      "tiempo_segundos": 2400,
       "racha_maxima": 14
     }
   },
   "repaso_inteligente": {
     "fecha": "2026-09-04",
     "vistas": [
+      "1",
       "1015",
       "102",
       "1063",
@@ -6940,6 +6997,7 @@
       "1195",
       "1198",
       "1210",
+      "1218",
       "1222",
       "1227",
       "1245",
@@ -6953,6 +7011,8 @@
       "1311",
       "1325",
       "1334",
+      "1338",
+      "1362",
       "1364",
       "1366",
       "1390",
@@ -7013,6 +7073,7 @@
       "481",
       "486",
       "494",
+      "50",
       "531",
       "533",
       "543",
@@ -7022,8 +7083,10 @@
       "570",
       "572",
       "573",
+      "575",
       "579",
       "584",
+      "59",
       "593",
       "602",
       "629",
@@ -7050,6 +7113,7 @@
       "792",
       "803",
       "805",
+      "813",
       "816",
       "821",
       "831",
@@ -7060,6 +7124,8 @@
       "846",
       "857",
       "872",
+      "876",
+      "891",
       "9",
       "906",
       "911",
