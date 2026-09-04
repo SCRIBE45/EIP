@@ -4578,11 +4578,11 @@
     },
     "1477": {
       "veces_acertada": 0,
-      "veces_fallada": 1,
-      "intervalo": 0,
-      "factor_facilidad": 2.3,
-      "proxima_revision": "2026-08-28",
-      "ultima_vista": "2026-08-28"
+      "veces_fallada": 2,
+      "intervalo": 1,
+      "factor_facilidad": 2.0999999999999996,
+      "proxima_revision": "2026-09-05",
+      "ultima_vista": "2026-09-04"
     },
     "962": {
       "veces_acertada": 1,
@@ -5361,12 +5361,12 @@
       "ultima_vista": "2026-09-04"
     },
     "1465": {
-      "veces_acertada": 0,
+      "veces_acertada": 1,
       "veces_fallada": 1,
       "intervalo": 1,
-      "factor_facilidad": 2.3,
-      "proxima_revision": "2026-09-03",
-      "ultima_vista": "2026-09-02"
+      "factor_facilidad": 2.4,
+      "proxima_revision": "2026-09-05",
+      "ultima_vista": "2026-09-04"
     },
     "1442": {
       "veces_acertada": 1,
@@ -7583,6 +7583,70 @@
       "factor_facilidad": 2.3,
       "proxima_revision": "2026-09-05",
       "ultima_vista": "2026-09-04"
+    },
+    "1110": {
+      "veces_acertada": 1,
+      "veces_fallada": 0,
+      "intervalo": 1,
+      "factor_facilidad": 2.6,
+      "proxima_revision": "2026-09-05",
+      "ultima_vista": "2026-09-04"
+    },
+    "672": {
+      "veces_acertada": 1,
+      "veces_fallada": 0,
+      "intervalo": 1,
+      "factor_facilidad": 2.6,
+      "proxima_revision": "2026-09-05",
+      "ultima_vista": "2026-09-04"
+    },
+    "203": {
+      "veces_acertada": 1,
+      "veces_fallada": 0,
+      "intervalo": 1,
+      "factor_facilidad": 2.6,
+      "proxima_revision": "2026-09-05",
+      "ultima_vista": "2026-09-04"
+    },
+    "1137": {
+      "veces_acertada": 1,
+      "veces_fallada": 0,
+      "intervalo": 1,
+      "factor_facilidad": 2.6,
+      "proxima_revision": "2026-09-05",
+      "ultima_vista": "2026-09-04"
+    },
+    "199": {
+      "veces_acertada": 1,
+      "veces_fallada": 0,
+      "intervalo": 1,
+      "factor_facilidad": 2.6,
+      "proxima_revision": "2026-09-05",
+      "ultima_vista": "2026-09-04"
+    },
+    "1270": {
+      "veces_acertada": 0,
+      "veces_fallada": 1,
+      "intervalo": 1,
+      "factor_facilidad": 2.3,
+      "proxima_revision": "2026-09-05",
+      "ultima_vista": "2026-09-04"
+    },
+    "1561": {
+      "veces_acertada": 1,
+      "veces_fallada": 0,
+      "intervalo": 1,
+      "factor_facilidad": 2.6,
+      "proxima_revision": "2026-09-05",
+      "ultima_vista": "2026-09-04"
+    },
+    "459": {
+      "veces_acertada": 1,
+      "veces_fallada": 0,
+      "intervalo": 1,
+      "factor_facilidad": 2.6,
+      "proxima_revision": "2026-09-05",
+      "ultima_vista": "2026-09-04"
     }
   },
   "registro_diario": {
@@ -7647,9 +7711,9 @@
       "racha_maxima": 7
     },
     "2026-09-04": {
-      "respondidas": 280,
-      "acertadas": 212,
-      "tiempo_segundos": 4200,
+      "respondidas": 290,
+      "acertadas": 220,
+      "tiempo_segundos": 4350,
       "racha_maxima": 14
     }
   },
@@ -7674,6 +7738,7 @@
       "1093",
       "1098",
       "1109",
+      "1110",
       "1111",
       "1112",
       "1116",
@@ -7681,6 +7746,7 @@
       "1122",
       "1126",
       "1130",
+      "1137",
       "1140",
       "1144",
       "1145",
@@ -7708,6 +7774,7 @@
       "126",
       "1261",
       "1265",
+      "1270",
       "1272",
       "1273",
       "1275",
@@ -7746,8 +7813,10 @@
       "1451",
       "1453",
       "1458",
+      "1465",
       "1470",
       "1476",
+      "1477",
       "1478",
       "1483",
       "1491",
@@ -7761,6 +7830,7 @@
       "1550",
       "1555",
       "156",
+      "1561",
       "1566",
       "1570",
       "1573",
@@ -7774,7 +7844,9 @@
       "184",
       "186",
       "197",
+      "199",
       "20",
+      "203",
       "209",
       "214",
       "219",
@@ -7829,6 +7901,7 @@
       "442",
       "450",
       "452",
+      "459",
       "480",
       "481",
       "486",
@@ -7870,6 +7943,7 @@
       "667",
       "668",
       "670",
+      "672",
       "683",
       "690",
       "698",
