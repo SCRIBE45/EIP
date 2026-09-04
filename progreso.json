@@ -641,12 +641,12 @@
       "ultima_vista": "2026-08-28"
     },
     "449": {
-      "veces_acertada": 1,
+      "veces_acertada": 2,
       "veces_fallada": 0,
-      "intervalo": 1,
-      "factor_facilidad": 2.6,
-      "proxima_revision": "2026-08-25",
-      "ultima_vista": "2026-08-24"
+      "intervalo": 3,
+      "factor_facilidad": 2.7,
+      "proxima_revision": "2026-09-07",
+      "ultima_vista": "2026-09-04"
     },
     "230": {
       "veces_acertada": 3,
@@ -4553,12 +4553,12 @@
       "ultima_vista": "2026-08-28"
     },
     "194": {
-      "veces_acertada": 1,
+      "veces_acertada": 2,
       "veces_fallada": 0,
-      "intervalo": 1,
-      "factor_facilidad": 2.6,
-      "proxima_revision": "2026-08-29",
-      "ultima_vista": "2026-08-28"
+      "intervalo": 3,
+      "factor_facilidad": 2.7,
+      "proxima_revision": "2026-09-07",
+      "ultima_vista": "2026-09-04"
     },
     "1300": {
       "veces_acertada": 1,
@@ -4722,11 +4722,11 @@
     },
     "1502": {
       "veces_acertada": 0,
-      "veces_fallada": 1,
-      "intervalo": 0,
-      "factor_facilidad": 2.3,
-      "proxima_revision": "2026-08-28",
-      "ultima_vista": "2026-08-28"
+      "veces_fallada": 2,
+      "intervalo": 1,
+      "factor_facilidad": 2.0999999999999996,
+      "proxima_revision": "2026-09-05",
+      "ultima_vista": "2026-09-04"
     },
     "626": {
       "veces_acertada": 1,
@@ -5609,12 +5609,12 @@
       "ultima_vista": "2026-09-04"
     },
     "445": {
-      "veces_acertada": 1,
-      "veces_fallada": 0,
+      "veces_acertada": 0,
+      "veces_fallada": 1,
       "intervalo": 1,
-      "factor_facilidad": 2.6,
-      "proxima_revision": "2026-09-03",
-      "ultima_vista": "2026-09-02"
+      "factor_facilidad": 2.4,
+      "proxima_revision": "2026-09-05",
+      "ultima_vista": "2026-09-04"
     },
     "391": {
       "veces_acertada": 1,
@@ -7775,6 +7775,54 @@
       "factor_facilidad": 2.6,
       "proxima_revision": "2026-09-05",
       "ultima_vista": "2026-09-04"
+    },
+    "1047": {
+      "veces_acertada": 1,
+      "veces_fallada": 0,
+      "intervalo": 1,
+      "factor_facilidad": 2.6,
+      "proxima_revision": "2026-09-05",
+      "ultima_vista": "2026-09-04"
+    },
+    "1009": {
+      "veces_acertada": 1,
+      "veces_fallada": 0,
+      "intervalo": 1,
+      "factor_facilidad": 2.6,
+      "proxima_revision": "2026-09-05",
+      "ultima_vista": "2026-09-04"
+    },
+    "1194": {
+      "veces_acertada": 1,
+      "veces_fallada": 0,
+      "intervalo": 1,
+      "factor_facilidad": 2.6,
+      "proxima_revision": "2026-09-05",
+      "ultima_vista": "2026-09-04"
+    },
+    "1014": {
+      "veces_acertada": 1,
+      "veces_fallada": 0,
+      "intervalo": 1,
+      "factor_facilidad": 2.6,
+      "proxima_revision": "2026-09-05",
+      "ultima_vista": "2026-09-04"
+    },
+    "681": {
+      "veces_acertada": 1,
+      "veces_fallada": 0,
+      "intervalo": 1,
+      "factor_facilidad": 2.6,
+      "proxima_revision": "2026-09-05",
+      "ultima_vista": "2026-09-04"
+    },
+    "1099": {
+      "veces_acertada": 1,
+      "veces_fallada": 0,
+      "intervalo": 1,
+      "factor_facilidad": 2.6,
+      "proxima_revision": "2026-09-05",
+      "ultima_vista": "2026-09-04"
     }
   },
   "registro_diario": {
@@ -7839,9 +7887,9 @@
       "racha_maxima": 7
     },
     "2026-09-04": {
-      "respondidas": 310,
-      "acertadas": 235,
-      "tiempo_segundos": 4650,
+      "respondidas": 320,
+      "acertadas": 243,
+      "tiempo_segundos": 4800,
       "racha_maxima": 14
     }
   },
@@ -7850,6 +7898,8 @@
     "vistas": [
       "1",
       "1001",
+      "1009",
+      "1014",
       "1015",
       "102",
       "1024",
@@ -7859,6 +7909,7 @@
       "1033",
       "1037",
       "1039",
+      "1047",
       "1063",
       "1073",
       "1083",
@@ -7866,6 +7917,7 @@
       "1088",
       "1093",
       "1098",
+      "1099",
       "1109",
       "1110",
       "1111",
@@ -7892,6 +7944,7 @@
       "1175",
       "1182",
       "119",
+      "1194",
       "1195",
       "1198",
       "1210",
@@ -7957,6 +8010,7 @@
       "1489",
       "1491",
       "1494",
+      "1502",
       "151",
       "1510",
       "1524",
@@ -7981,6 +8035,7 @@
       "181",
       "184",
       "186",
+      "194",
       "197",
       "199",
       "20",
@@ -8040,6 +8095,8 @@
       "430",
       "437",
       "442",
+      "445",
+      "449",
       "450",
       "452",
       "459",
@@ -8089,6 +8146,7 @@
       "670",
       "672",
       "680",
+      "681",
       "683",
       "688",
       "690",
