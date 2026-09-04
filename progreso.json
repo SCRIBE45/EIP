@@ -417,12 +417,12 @@
       "ultima_vista": "2026-08-25"
     },
     "39": {
-      "veces_acertada": 2,
-      "veces_fallada": 2,
-      "intervalo": 3,
-      "factor_facilidad": 2.4,
-      "proxima_revision": "2026-08-29",
-      "ultima_vista": "2026-08-26"
+      "veces_acertada": 0,
+      "veces_fallada": 3,
+      "intervalo": 1,
+      "factor_facilidad": 2.1999999999999997,
+      "proxima_revision": "2026-09-05",
+      "ultima_vista": "2026-09-04"
     },
     "1208": {
       "veces_acertada": 3,
@@ -1425,12 +1425,12 @@
       "ultima_vista": "2026-08-25"
     },
     "969": {
-      "veces_acertada": 2,
+      "veces_acertada": 3,
       "veces_fallada": 1,
-      "intervalo": 3,
-      "factor_facilidad": 2.5,
-      "proxima_revision": "2026-08-30",
-      "ultima_vista": "2026-08-27"
+      "intervalo": 8,
+      "factor_facilidad": 2.6,
+      "proxima_revision": "2026-09-12",
+      "ultima_vista": "2026-09-04"
     },
     "110": {
       "veces_acertada": 2,
@@ -1561,12 +1561,12 @@
       "ultima_vista": "2026-08-27"
     },
     "1343": {
-      "veces_acertada": 0,
+      "veces_acertada": 1,
       "veces_fallada": 1,
-      "intervalo": 0,
-      "factor_facilidad": 2.4,
-      "proxima_revision": "2026-08-28",
-      "ultima_vista": "2026-08-28"
+      "intervalo": 1,
+      "factor_facilidad": 2.5,
+      "proxima_revision": "2026-09-05",
+      "ultima_vista": "2026-09-04"
     },
     "829": {
       "veces_acertada": 2,
@@ -5906,11 +5906,11 @@
     },
     "1290": {
       "veces_acertada": 0,
-      "veces_fallada": 1,
+      "veces_fallada": 2,
       "intervalo": 1,
-      "factor_facilidad": 2.3,
-      "proxima_revision": "2026-09-04",
-      "ultima_vista": "2026-09-03"
+      "factor_facilidad": 2.0999999999999996,
+      "proxima_revision": "2026-09-05",
+      "ultima_vista": "2026-09-04"
     },
     "1183": {
       "veces_acertada": 1,
@@ -5921,12 +5921,12 @@
       "ultima_vista": "2026-09-03"
     },
     "1317": {
-      "veces_acertada": 0,
+      "veces_acertada": 1,
       "veces_fallada": 1,
       "intervalo": 1,
-      "factor_facilidad": 2.3,
-      "proxima_revision": "2026-09-04",
-      "ultima_vista": "2026-09-03"
+      "factor_facilidad": 2.4,
+      "proxima_revision": "2026-09-05",
+      "ultima_vista": "2026-09-04"
     },
     "206": {
       "veces_acertada": 1,
@@ -7375,6 +7375,46 @@
       "factor_facilidad": 2.6,
       "proxima_revision": "2026-09-05",
       "ultima_vista": "2026-09-04"
+    },
+    "700": {
+      "veces_acertada": 1,
+      "veces_fallada": 0,
+      "intervalo": 1,
+      "factor_facilidad": 2.6,
+      "proxima_revision": "2026-09-05",
+      "ultima_vista": "2026-09-04"
+    },
+    "1039": {
+      "veces_acertada": 1,
+      "veces_fallada": 0,
+      "intervalo": 1,
+      "factor_facilidad": 2.6,
+      "proxima_revision": "2026-09-05",
+      "ultima_vista": "2026-09-04"
+    },
+    "134": {
+      "veces_acertada": 1,
+      "veces_fallada": 0,
+      "intervalo": 1,
+      "factor_facilidad": 2.6,
+      "proxima_revision": "2026-09-05",
+      "ultima_vista": "2026-09-04"
+    },
+    "31": {
+      "veces_acertada": 1,
+      "veces_fallada": 0,
+      "intervalo": 1,
+      "factor_facilidad": 2.6,
+      "proxima_revision": "2026-09-05",
+      "ultima_vista": "2026-09-04"
+    },
+    "618": {
+      "veces_acertada": 1,
+      "veces_fallada": 0,
+      "intervalo": 1,
+      "factor_facilidad": 2.6,
+      "proxima_revision": "2026-09-05",
+      "ultima_vista": "2026-09-04"
     }
   },
   "registro_diario": {
@@ -7439,9 +7479,9 @@
       "racha_maxima": 7
     },
     "2026-09-04": {
-      "respondidas": 240,
-      "acertadas": 180,
-      "tiempo_segundos": 3600,
+      "respondidas": 250,
+      "acertadas": 188,
+      "tiempo_segundos": 3750,
       "racha_maxima": 14
     }
   },
@@ -7457,6 +7497,7 @@
       "1028",
       "1032",
       "1037",
+      "1039",
       "1063",
       "1083",
       "1088",
@@ -7503,14 +7544,18 @@
       "1288",
       "1289",
       "129",
+      "1290",
       "1296",
       "1306",
       "1308",
       "1311",
+      "1317",
       "1325",
       "1334",
       "1338",
+      "134",
       "1340",
+      "1343",
       "1362",
       "1364",
       "1366",
@@ -7560,6 +7605,7 @@
       "30",
       "305",
       "308",
+      "31",
       "313",
       "322",
       "323",
@@ -7578,6 +7624,7 @@
       "381",
       "384",
       "389",
+      "39",
       "391",
       "394",
       "405",
@@ -7618,6 +7665,7 @@
       "592",
       "593",
       "602",
+      "618",
       "624",
       "629",
       "63",
@@ -7630,6 +7678,7 @@
       "683",
       "690",
       "698",
+      "700",
       "702",
       "706",
       "713",
@@ -7684,6 +7733,7 @@
       "952",
       "956",
       "962",
+      "969",
       "97",
       "974",
       "978",
