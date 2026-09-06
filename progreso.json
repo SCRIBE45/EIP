@@ -418,11 +418,11 @@
     },
     "39": {
       "veces_acertada": 0,
-      "veces_fallada": 4,
+      "veces_fallada": 5,
       "intervalo": 1,
-      "factor_facilidad": 1.9999999999999998,
-      "proxima_revision": "2026-09-06",
-      "ultima_vista": "2026-09-05"
+      "factor_facilidad": 1.7999999999999998,
+      "proxima_revision": "2026-09-07",
+      "ultima_vista": "2026-09-06"
     },
     "1208": {
       "veces_acertada": 3,
@@ -4321,12 +4321,12 @@
       "ultima_vista": "2026-09-04"
     },
     "408": {
-      "veces_acertada": 1,
+      "veces_acertada": 2,
       "veces_fallada": 0,
-      "intervalo": 1,
-      "factor_facilidad": 2.6,
-      "proxima_revision": "2026-08-29",
-      "ultima_vista": "2026-08-28"
+      "intervalo": 3,
+      "factor_facilidad": 2.7,
+      "proxima_revision": "2026-09-09",
+      "ultima_vista": "2026-09-06"
     },
     "609": {
       "veces_acertada": 1,
@@ -4769,12 +4769,12 @@
       "ultima_vista": "2026-09-05"
     },
     "821": {
-      "veces_acertada": 0,
+      "veces_acertada": 1,
       "veces_fallada": 2,
       "intervalo": 1,
-      "factor_facilidad": 2.0999999999999996,
-      "proxima_revision": "2026-09-05",
-      "ultima_vista": "2026-09-04"
+      "factor_facilidad": 2.1999999999999997,
+      "proxima_revision": "2026-09-07",
+      "ultima_vista": "2026-09-06"
     },
     "1469": {
       "veces_acertada": 1,
@@ -4914,11 +4914,11 @@
     },
     "560": {
       "veces_acertada": 0,
-      "veces_fallada": 3,
+      "veces_fallada": 4,
       "intervalo": 1,
-      "factor_facilidad": 1.8999999999999997,
-      "proxima_revision": "2026-09-06",
-      "ultima_vista": "2026-09-05"
+      "factor_facilidad": 1.6999999999999997,
+      "proxima_revision": "2026-09-07",
+      "ultima_vista": "2026-09-06"
     },
     "331": {
       "veces_acertada": 1,
@@ -4953,12 +4953,12 @@
       "ultima_vista": "2026-08-31"
     },
     "752": {
-      "veces_acertada": 0,
+      "veces_acertada": 1,
       "veces_fallada": 2,
       "intervalo": 1,
-      "factor_facilidad": 2.0999999999999996,
-      "proxima_revision": "2026-09-05",
-      "ultima_vista": "2026-09-04"
+      "factor_facilidad": 2.1999999999999997,
+      "proxima_revision": "2026-09-07",
+      "ultima_vista": "2026-09-06"
     },
     "410": {
       "veces_acertada": 1,
@@ -8303,6 +8303,46 @@
       "factor_facilidad": 2.6,
       "proxima_revision": "2026-09-07",
       "ultima_vista": "2026-09-06"
+    },
+    "1345": {
+      "veces_acertada": 1,
+      "veces_fallada": 0,
+      "intervalo": 1,
+      "factor_facilidad": 2.6,
+      "proxima_revision": "2026-09-07",
+      "ultima_vista": "2026-09-06"
+    },
+    "462": {
+      "veces_acertada": 1,
+      "veces_fallada": 0,
+      "intervalo": 1,
+      "factor_facilidad": 2.6,
+      "proxima_revision": "2026-09-07",
+      "ultima_vista": "2026-09-06"
+    },
+    "1565": {
+      "veces_acertada": 1,
+      "veces_fallada": 0,
+      "intervalo": 1,
+      "factor_facilidad": 2.6,
+      "proxima_revision": "2026-09-07",
+      "ultima_vista": "2026-09-06"
+    },
+    "980": {
+      "veces_acertada": 1,
+      "veces_fallada": 0,
+      "intervalo": 1,
+      "factor_facilidad": 2.6,
+      "proxima_revision": "2026-09-07",
+      "ultima_vista": "2026-09-06"
+    },
+    "1003": {
+      "veces_acertada": 1,
+      "veces_fallada": 0,
+      "intervalo": 1,
+      "factor_facilidad": 2.6,
+      "proxima_revision": "2026-09-07",
+      "ultima_vista": "2026-09-06"
     }
   },
   "registro_diario": {
@@ -8379,16 +8419,26 @@
       "racha_maxima": 15
     },
     "2026-09-06": {
-      "respondidas": 1,
-      "acertadas": 1,
-      "tiempo_segundos": 15,
-      "racha_maxima": 1
+      "respondidas": 11,
+      "acertadas": 9,
+      "tiempo_segundos": 165,
+      "racha_maxima": 5
     }
   },
   "repaso_inteligente": {
     "fecha": "2026-09-06",
     "vistas": [
-      "539"
+      "1003",
+      "1345",
+      "1565",
+      "39",
+      "408",
+      "462",
+      "539",
+      "560",
+      "752",
+      "821",
+      "980"
     ]
   }
 }
