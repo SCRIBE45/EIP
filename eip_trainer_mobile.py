@@ -35,6 +35,46 @@ DB_PATH = Path(__file__).parent / "examen.db"
 FILE_PROGRESS_PATH = "progreso.json"
 
 
+def normalizar_datos_usuario(datos):
+    """Garantiza la estructura mínima esperada por la aplicación."""
+    if not isinstance(datos, dict):
+        datos = {}
+    datos.setdefault("progreso", {})
+    datos.setdefault("registro_diario", {})
+    datos.setdefault("repaso_inteligente", {"fecha": datetime.date.today().isoformat(), "vistas": []})
+
+    sr = datos["repaso_inteligente"]
+    if not isinstance(sr, dict):
+        sr = {}
+        datos["repaso_inteligente"] = sr
+    sr.setdefault("fecha", datetime.date.today().isoformat())
+    sr.setdefault("vistas", [])
+    if not isinstance(sr["vistas"], list):
+        sr["vistas"] = list(sr["vistas"]) if isinstance(sr["vistas"], (set, tuple)) else []
+    return datos
+
+
+def obtener_vistas_smart_hoy():
+    """Devuelve los IDs respondidos hoy en Repaso inteligente y reinicia el día si corresponde."""
+    datos = normalizar_datos_usuario(st.session_state.datos_usuario)
+    st.session_state.datos_usuario = datos
+    hoy = datetime.date.today().isoformat()
+    sr = datos["repaso_inteligente"]
+    if sr.get("fecha") != hoy:
+        sr["fecha"] = hoy
+        sr["vistas"] = []
+    return {str(x) for x in sr.get("vistas", [])}
+
+
+def marcar_vista_smart(pregunta_id):
+    """Marca una pregunta como respondida hoy en Repaso inteligente."""
+    datos = normalizar_datos_usuario(st.session_state.datos_usuario)
+    st.session_state.datos_usuario = datos
+    vistas = obtener_vistas_smart_hoy()
+    vistas.add(str(pregunta_id))
+    datos["repaso_inteligente"]["vistas"] = sorted(vistas)
+
+
 # ============================================================
 # PERSISTENCIA VÍA GITHUB API
 # ============================================================
@@ -63,11 +103,11 @@ def cargar_datos_remotos():
             data = res.json()
             content = base64.b64decode(data["content"]).decode("utf-8")
             st.session_state["_github_sha"] = data["sha"]
-            return json.loads(content)
+            return normalizar_datos_usuario(json.loads(content))
     except Exception:
         pass
         
-    return {"progreso": {}, "registro_diario": {}}
+    return normalizar_datos_usuario({})
 
 def guardar_datos_remotos(datos):
     repo = st.secrets.get("GITHUB_REPO", "")
@@ -96,7 +136,7 @@ def guardar_datos_remotos(datos):
         pass
 
 if "datos_usuario" not in st.session_state:
-    st.session_state.datos_usuario = cargar_datos_remotos()
+    st.session_state.datos_usuario = normalizar_datos_usuario(cargar_datos_remotos())
 
 if "cambios_pendientes" not in st.session_state:
     st.session_state.cambios_pendientes = 0
@@ -186,10 +226,10 @@ def get_questions(modo, tema):
         p_id = str(p[0])
         prog = prog_dict.get(p_id, {})
 
-        aciertos = prog.get("veces_acertada", 0)
-        fallos = prog.get("veces_fallada", 0)
-        intervalo = prog.get("intervalo", 0)
-        factor = prog.get("factor_facilidad", 2.5)
+        aciertos = prog.get("veces_acertada", 0) or 0
+        fallos = prog.get("veces_fallada", 0) or 0
+        intervalo = prog.get("intervalo", 0) or 0
+        factor = prog.get("factor_facilidad", 2.5) or 2.5
         proxima = prog.get("proxima_revision", None)
 
         pregunta = (
@@ -199,23 +239,42 @@ def get_questions(modo, tema):
         )
         preguntas_completas.append(pregunta)
 
-        # Clasificación
         if aciertos == 0 and fallos == 0:
             nuevas.append(pregunta)
-        elif fallos > aciertos:
-            falladas.append(pregunta)
         elif proxima and proxima <= hoy:
-            pendientes.append(pregunta)
+            # Una pregunta con historial de fallos se prioriza como "fallada"
+            # cuando realmente toca revisarla; si no, queda fuera hasta su fecha.
+            if fallos > aciertos:
+                falladas.append(pregunta)
+            else:
+                pendientes.append(pregunta)
 
     if modo == "inteligente":
-        vistas = len(filas) - len(nuevas)
-        total = len(filas)
-        cobertura = vistas / total if total else 0
+        # La cobertura se calcula sobre el banco completo, antes del filtro diario.
+        vistas_totales = sum(
+            1 for p in preguntas_completas
+            if p[9] > 0 or p[10] > 0
+        )
+        total = len(preguntas_completas)
+        cobertura = vistas_totales / total if total else 0
+
+        vistas_hoy = obtener_vistas_smart_hoy()
+        nuevas = [p for p in nuevas if str(p[0]) not in vistas_hoy]
+        pendientes = [p for p in pendientes if str(p[0]) not in vistas_hoy]
+        falladas = [p for p in falladas if str(p[0]) not in vistas_hoy]
+
         return construir_cola_inteligente(nuevas, pendientes, falladas, cobertura)
 
     elif modo == "falladas":
         resultado = [p for p in preguntas_completas if p[10] > 0]
         resultado.sort(key=lambda x: (-(x[10] or 0), (x[9] or 0)))
+        return resultado
+
+    elif modo == "nuevas":
+        # Solo preguntas que nunca se han respondido.
+        # Se considera "vista" si tiene al menos un acierto o un fallo.
+        resultado = [p for p in preguntas_completas if p[9] == 0 and p[10] == 0]
+        random.shuffle(resultado)
         return resultado
 
     elif modo == "simulacro":
@@ -317,7 +376,7 @@ def get_history_stats(dias=30):
         resp = r.get("respondidas", 0)
         ac = r.get("acertadas", 0)
         data.append({
-            'Fecha': f.strftime('%d/%m'),
+            'Fecha': f,
             'Preguntas': resp,
             'Aciertos': ac,
             'Precisión': ac / resp * 100 if resp else 0,
@@ -582,6 +641,9 @@ def dashboard():
         if st.button("🔄 Solo falladas", use_container_width=True):
             iniciar_sesion("falladas")
 
+        if st.button("🆕 Solo nunca vistas", use_container_width=True):
+            iniciar_sesion("nuevas")
+
     with col2:
         if st.button("🧠 Repaso inteligente", use_container_width=True):
             iniciar_sesion("inteligente")
@@ -673,6 +735,7 @@ def session():
         "simulacro": "📝 Simulacro",
         "inteligente": "🧠 Repaso inteligente",
         "falladas": "🔄 Solo falladas",
+        "nuevas": "🆕 Solo nunca vistas",
         "libre": "🎲 Práctica libre",
     }
 
@@ -789,6 +852,9 @@ def responder(seleccion):
 
     actualizar_algoritmo(p, es_correcta)
 
+    if st.session_state.modo == "inteligente":
+        marcar_vista_smart(p[0])
+
     if st.session_state.modo == "simulacro":
         siguiente_pregunta()
     else:
@@ -872,6 +938,26 @@ def siguiente_pregunta():
         st.session_state.preguntas
     ):
         finalizar_sesion()
+
+def actualizar_registro_sesion(respondidas, acertadas, tiempo_segundos=0, racha=0):
+    """Registra de una vez los resultados de un simulacro en las estadísticas diarias."""
+    datos = st.session_state.datos_usuario
+    hoy = datetime.date.today().isoformat()
+    registro = datos["registro_diario"].get(hoy, {
+        "respondidas": 0,
+        "acertadas": 0,
+        "tiempo_segundos": 0,
+        "racha_maxima": 0,
+    })
+
+    registro["respondidas"] += int(respondidas)
+    registro["acertadas"] += int(acertadas)
+    registro["tiempo_segundos"] += int(tiempo_segundos)
+    registro["racha_maxima"] = max(registro.get("racha_maxima", 0), int(racha))
+    datos["registro_diario"][hoy] = registro
+    st.session_state.cambios_pendientes += int(respondidas)
+    guardar_datos_remotos(datos)
+
 
 def finalizar_sesion():
     total = len(st.session_state.preguntas)
@@ -974,21 +1060,46 @@ def stats():
         cobertura = stats['vistas'] / stats['total'] if stats['total'] else 0
         st.markdown("**Cobertura del banco**")
         st.progress(cobertura)
-        st.caption(f"{stats['vistas']} de {stats['total']} preguntas vistas ({cobertura*100:.0f}%)")
-        
+        st.caption(
+            f"{stats['vistas']} de {stats['total']} preguntas vistas "
+            f"({cobertura*100:.0f}%)"
+        )
+
         st.markdown("### 📅 Evolución — últimos 30 días")
         df = get_history_stats(30)
+
         if df['Preguntas'].sum() > 0:
-            st.line_chart(df.set_index('Fecha')[['Precisión']], height=260)
+
+            st.markdown("#### 🎯 Precisión diaria")
+            st.line_chart(
+                df.set_index('Fecha')[['Precisión']],
+                height=220
+            )
+
+            st.markdown("#### 📝 Preguntas realizadas")
+            st.bar_chart(
+                df.set_index('Fecha')[['Preguntas']],
+                height=220
+            )
+
             c1, c2, c3 = st.columns(3)
             c1.metric("Preguntas", int(df['Preguntas'].sum()))
             c2.metric("Tiempo", f"{df['Tiempo (min)'].sum():.0f} min")
             c3.metric("Mejor racha", int(df['Racha'].max()))
+
         else:
             st.info("Aún no hay suficiente actividad para mostrar una evolución.")
-            
+
         st.markdown("### 🧭 Índice de preparación")
-        indice = .50 * stats['precision'] + .25 * cobertura + .25 * (stats['dominadas'] / stats['total'] if stats['total'] else 0)
+        indice = (
+            .50 * stats['precision']
+            + .25 * cobertura
+            + .25 * (
+                stats['dominadas'] / stats['total']
+                if stats['total'] else 0
+            )
+        )
+
         st.progress(min(indice, 1.0))
         st.markdown(f"## {indice*100:.0f} / 100")
         
