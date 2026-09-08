@@ -10975,6 +10975,46 @@
       "factor_facilidad": 2.6,
       "proxima_revision": "2026-09-09",
       "ultima_vista": "2026-09-08"
+    },
+    "741": {
+      "veces_acertada": 1,
+      "veces_fallada": 0,
+      "intervalo": 1,
+      "factor_facilidad": 2.6,
+      "proxima_revision": "2026-09-09",
+      "ultima_vista": "2026-09-08"
+    },
+    "534": {
+      "veces_acertada": 1,
+      "veces_fallada": 0,
+      "intervalo": 1,
+      "factor_facilidad": 2.6,
+      "proxima_revision": "2026-09-09",
+      "ultima_vista": "2026-09-08"
+    },
+    "927": {
+      "veces_acertada": 1,
+      "veces_fallada": 0,
+      "intervalo": 1,
+      "factor_facilidad": 2.6,
+      "proxima_revision": "2026-09-09",
+      "ultima_vista": "2026-09-08"
+    },
+    "758": {
+      "veces_acertada": 1,
+      "veces_fallada": 0,
+      "intervalo": 1,
+      "factor_facilidad": 2.6,
+      "proxima_revision": "2026-09-09",
+      "ultima_vista": "2026-09-08"
+    },
+    "612": {
+      "veces_acertada": 1,
+      "veces_fallada": 0,
+      "intervalo": 1,
+      "factor_facilidad": 2.6,
+      "proxima_revision": "2026-09-09",
+      "ultima_vista": "2026-09-08"
     }
   },
   "registro_diario": {
@@ -11063,10 +11103,10 @@
       "racha_maxima": 14
     },
     "2026-09-08": {
-      "respondidas": 10,
-      "acertadas": 7,
-      "tiempo_segundos": 150,
-      "racha_maxima": 4
+      "respondidas": 15,
+      "acertadas": 12,
+      "tiempo_segundos": 225,
+      "racha_maxima": 9
     }
   },
   "repaso_inteligente": {
